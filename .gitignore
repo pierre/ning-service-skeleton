@@ -1,0 +1,12 @@
+.idea
+*.iml
+*.ipr
+*.iws
+target
+staging
+overlays
+examples
+pom.xml.releaseBackup
+release.properties
+logs/
+.diskspool
