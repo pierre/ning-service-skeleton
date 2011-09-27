@@ -1,4 +1,4 @@
-To see an example of an application using this skeleton, see how the maven-jetty-plugin is configured (relevant files under [src/test/resources](https://github.com/pierre/ning-service-skeleton/tree/master/src/test/resources)).
+To see an example of an application using this skeleton, see how the maven-jetty-plugin is configured (relevant files under [src/test/](https://github.com/pierre/ning-service-skeleton/tree/master/core/src/test)).
 
 Guice
 -----
