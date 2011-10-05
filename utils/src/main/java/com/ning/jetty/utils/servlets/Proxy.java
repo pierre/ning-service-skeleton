@@ -24,6 +24,7 @@ import com.ning.http.client.generators.InputStreamBodyGenerator;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -112,7 +113,13 @@ public class Proxy implements Servlet
                 }
             }
             // Copy response body
-            response.getOutputStream().write(proxiedResponse.getResponseBody().getBytes());
+            final ServletOutputStream responseOutputStream = response.getOutputStream();
+            final InputStream stream = proxiedResponse.getResponseBodyAsStream();
+            final byte[] buf = new byte[1024];
+            while (stream.available() > 0) {
+                final int read = stream.read(buf);
+                responseOutputStream.write(buf, 0, read);
+            }
         }
         catch (InterruptedException e) {
             throw new ServletException(e);
