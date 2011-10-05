@@ -28,8 +28,4 @@ public interface CoreConfig
     @Config("com.ning.core.server.port")
     @Default("8080")
     int getServerPort();
-
-    @Config("com.ning.core.log4j.enabled")
-    @Default("true")
-    boolean isLog4jEnabled();
 }
