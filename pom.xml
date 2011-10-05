@@ -314,7 +314,7 @@
                         </goals>
                         <configuration>
                             <ignoreNonCompile>true</ignoreNonCompile>
-                            <failOnWarning>true</failOnWarning>
+                            <failOnWarning>false</failOnWarning>
                         </configuration>
                     </execution>
                 </executions>
