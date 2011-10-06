@@ -28,6 +28,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.UnavailableException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
@@ -70,7 +71,15 @@ public class Proxy implements Servlet
     public void init(final ServletConfig config) throws ServletException
     {
         this.config = config;
-        proxyTo = "http://" + serviceFinder.getRemoteHost();
+        final String remoteHost;
+        try {
+            remoteHost = serviceFinder.getRemoteHost();
+        }
+        catch (Exception e) {
+            // The Servlet is temporarily unavailable
+            throw new UnavailableException("The service finder couldn't find the remote host: " + (e.getCause() == null ? e.toString() : e.getCause().toString()), -1);
+        }
+        proxyTo = "http://" + remoteHost;
 
         // Don't limit the number of connections per host
         // See https://github.com/ning/async-http-client/issues/issue/28
