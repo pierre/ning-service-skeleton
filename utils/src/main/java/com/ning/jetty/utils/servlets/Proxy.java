@@ -16,6 +16,7 @@
 
 package com.ning.jetty.utils.servlets;
 
+import com.google.common.io.ByteStreams;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.AsyncHttpClientConfig;
 import com.ning.http.client.RequestBuilder;
@@ -115,11 +116,7 @@ public class Proxy implements Servlet
             // Copy response body
             final ServletOutputStream responseOutputStream = response.getOutputStream();
             final InputStream stream = proxiedResponse.getResponseBodyAsStream();
-            final byte[] buf = new byte[1024];
-            while (stream.available() > 0) {
-                final int read = stream.read(buf);
-                responseOutputStream.write(buf, 0, read);
-            }
+            ByteStreams.copy(stream, responseOutputStream);
         }
         catch (InterruptedException e) {
             throw new ServletException(e);
