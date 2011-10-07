@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,7 @@ import java.util.Map;
  */
 public class PeepingTomResponseWrapper extends ServletResponseWrapper implements HttpServletResponse
 {
-    private final Map<String, Object> headers = new HashMap<String, Object>();
+    private final Map<String, List<String>> headers = new HashMap<String, List<String>>();
 
     private OpenableServletOutputStream stream = null;
     private volatile int status = -1;
@@ -44,7 +45,7 @@ public class PeepingTomResponseWrapper extends ServletResponseWrapper implements
         super(response);
     }
 
-    public Map<String, Object> getHeaders()
+    public Map<String, List<String>> getHeaders()
     {
         return headers;
     }
@@ -180,35 +181,61 @@ public class PeepingTomResponseWrapper extends ServletResponseWrapper implements
     @Override
     public void setHeader(final String name, final String value)
     {
-        headers.put(name, value);
+        headers.put(name, new ArrayList<String>());
+        headers.get(name).add(value);
         this._getHttpServletResponse().setHeader(name, value);
     }
 
     @Override
     public void addHeader(final String name, final String value)
     {
-        if (headers.get(name) == null || !(headers.get(name) instanceof List)) {
-            headers.put(name, new ArrayList<Object>());
+        if (headers.get(name) == null) {
+            headers.put(name, new ArrayList<String>());
         }
-        ((List<Object>) headers.get(name)).add(value);
+        headers.get(name).add(value);
         this._getHttpServletResponse().addHeader(name, value);
     }
 
     @Override
     public void setIntHeader(final String name, final int value)
     {
-        headers.put(name, value);
+        headers.put(name, new ArrayList<String>());
+        headers.get(name).add(String.valueOf(value));
         this._getHttpServletResponse().setIntHeader(name, value);
     }
 
     @Override
     public void addIntHeader(final String name, final int value)
     {
-        if (headers.get(name) == null || !(headers.get(name) instanceof List)) {
-            headers.put(name, new ArrayList<Object>());
+        if (headers.get(name) == null) {
+            headers.put(name, new ArrayList<String>());
         }
-        ((List<Object>) headers.get(name)).add(value);
+        headers.get(name).add(String.valueOf(value));
         this._getHttpServletResponse().addIntHeader(name, value);
+    }
+
+    @Override
+    public String getHeader(final String name)
+    {
+        final List<String> foundHeaders = headers.get(name);
+        if (foundHeaders != null) {
+            return foundHeaders.get(0);
+        }
+        else {
+            return null;
+        }
+    }
+
+    @Override
+    public Collection<String> getHeaders(final String name)
+    {
+        return headers.get(name);
+    }
+
+    @Override
+    public Collection<String> getHeaderNames()
+    {
+        return headers.keySet();
     }
 
     @Override
