@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package com.ning.jetty.core.healthchecks;
+package com.ning.jetty.utils.healthchecks;
 
 import com.google.inject.Inject;
 import com.yammer.metrics.core.HealthCheck;

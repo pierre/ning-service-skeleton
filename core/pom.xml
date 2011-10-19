@@ -15,7 +15,8 @@
   ~ under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.ning.jetty</groupId>
@@ -48,16 +49,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.jolbox</groupId>
-            <artifactId>bonecp</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.ning.jaxrs</groupId>
             <artifactId>jaxrs-metrics</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.ning.jdbi</groupId>
-            <artifactId>jdbi-metrics</artifactId>
         </dependency>
         <dependency>
             <groupId>com.yammer.metrics</groupId>
@@ -86,17 +79,8 @@
             <artifactId>jsr311-api</artifactId>
         </dependency>
         <dependency>
-            <!-- For dependencies resolution -->
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-jaxrs</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jdbi</groupId>
-            <artifactId>jdbi</artifactId>
         </dependency>
         <dependency>
             <groupId>org.weakref</groupId>
@@ -123,11 +107,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jul-to-slf4j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <scope>runtime</scope>
         </dependency>
     </dependencies>
     <build>

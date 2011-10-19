@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package com.ning.jetty.core.providers;
+package com.ning.jetty.utils.providers;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -23,7 +23,7 @@ import com.jolbox.bonecp.BoneCPDataSource;
 import com.ning.jdbi.metrics.JdbiGroupStrategy;
 import com.ning.jdbi.metrics.MetricsTimingCollector;
 import com.ning.jdbi.metrics.SqlJdbiGroupStrategy;
-import com.ning.jetty.core.DaoConfig;
+import com.ning.jetty.utils.DaoConfig;
 import com.yammer.metrics.core.MetricsRegistry;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.TimingCollector;

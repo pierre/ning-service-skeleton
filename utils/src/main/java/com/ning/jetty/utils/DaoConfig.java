@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package com.ning.jetty.core;
+package com.ning.jetty.utils;
 
 import org.skife.config.Config;
 import org.skife.config.Default;

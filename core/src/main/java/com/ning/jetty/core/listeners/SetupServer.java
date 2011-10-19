@@ -41,11 +41,17 @@ public class SetupServer extends GuiceServletContextListener
 {
     private static final Logger log = LoggerFactory.getLogger(SetupServer.class);
 
-    private Module guiceModule = null;
+    protected Module guiceModule = null;
 
     @Override
     public void contextInitialized(final ServletContextEvent event)
     {
+        if (guiceModule != null) {
+            // Overriden in subclasses?
+            super.contextInitialized(event);
+            return;
+        }
+
         final String moduleClassName = event.getServletContext().getInitParameter("guiceModuleClassName");
         if (StringUtils.isEmpty(moduleClassName)) {
             throw new IllegalStateException("Missing parameter for the base Guice module!");

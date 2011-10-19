@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package com.ning.jetty.core.log4j;
+package com.ning.jetty.utils.log4j;
 
 import org.apache.log4j.Level;
 import org.weakref.jmx.Managed;

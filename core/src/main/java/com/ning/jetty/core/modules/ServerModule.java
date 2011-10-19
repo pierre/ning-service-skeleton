@@ -16,20 +16,13 @@
 
 package com.ning.jetty.core.modules;
 
-import com.google.inject.multibindings.Multibinder;
 import com.google.inject.servlet.ServletModule;
 import com.ning.jersey.metrics.TimedResourceModule;
 import com.ning.jetty.core.CoreConfig;
-import com.ning.jetty.core.DaoConfig;
-import com.ning.jetty.core.healthchecks.DBIHealthCheck;
-import com.ning.jetty.core.log4j.Log4JMBean;
-import com.ning.jetty.core.providers.DBIProvider;
-import com.yammer.metrics.core.HealthCheck;
 import com.yammer.metrics.guice.InstrumentationModule;
 import com.yammer.metrics.reporting.guice.MetricsServletModule;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.skife.config.ConfigurationObjectFactory;
-import org.skife.jdbi.v2.DBI;
 import org.weakref.jmx.guice.ExportBuilder;
 import org.weakref.jmx.guice.MBeanModule;
 
@@ -58,19 +51,13 @@ public class ServerModule extends ServletModule
 
         installJackson();
         installJMX();
-        installLog4jLogging(builder);
         installStats();
-        installDBI();
-        installHealthChecks();
     }
 
     protected void configureConfig()
     {
-        final CoreConfig config = new ConfigurationObjectFactory(props).build(CoreConfig.class);
-        bind(CoreConfig.class).toInstance(config);
-
-        final DaoConfig daoConfig = new ConfigurationObjectFactory(props).build(DaoConfig.class);
-        bind(DaoConfig.class).toInstance(daoConfig);
+        final CoreConfig coreConfig = new ConfigurationObjectFactory(props).build(CoreConfig.class);
+        bind(CoreConfig.class).toInstance(coreConfig);
     }
 
     protected void installJackson()
@@ -83,12 +70,6 @@ public class ServerModule extends ServletModule
         install(new MBeanModule());
     }
 
-    public void installLog4jLogging(final ExportBuilder builder)
-    {
-        bind(Log4JMBean.class).asEagerSingleton();
-        builder.export(Log4JMBean.class).as("com.ning.jetty.core:name=Log4JMBean");
-    }
-
     protected void installStats()
     {
         // Codahale's metrics
@@ -99,16 +80,5 @@ public class ServerModule extends ServletModule
 
         // Metrics/Jersey integration
         install(new TimedResourceModule());
-    }
-
-    protected void installDBI()
-    {
-        binder().bind(DBI.class).toProvider(DBIProvider.class).asEagerSingleton();
-    }
-
-    protected void installHealthChecks()
-    {
-        final Multibinder<HealthCheck> healthChecksBinder = Multibinder.newSetBinder(binder(), HealthCheck.class);
-        healthChecksBinder.addBinding().to(DBIHealthCheck.class).asEagerSingleton();
     }
 }

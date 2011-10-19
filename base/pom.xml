@@ -24,15 +24,11 @@
         <version>0.0.6-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>ning-service-skeleton-utils</artifactId>
-    <name>ning-service-skeleton-utils</name>
+    <artifactId>ning-service-skeleton-base</artifactId>
+    <name>ning-service-skeleton-base</name>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
-            <groupId>com.jolbox</groupId>
-            <artifactId>bonecp</artifactId>
-        </dependency>
-        <dependency><!-- Force project version (override BoneCP's) -->
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <scope>provided</scope>
@@ -43,53 +39,46 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.mogwee</groupId>
-            <artifactId>mogwee-executors</artifactId>
+            <groupId>com.google.inject.extensions</groupId>
+            <artifactId>guice-servlet</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.ning</groupId>
-            <artifactId>async-http-client</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.ning</groupId>
-            <artifactId>metrics.eventtracker-smile</artifactId>
-            <optional>true</optional>
+            <groupId>com.google.inject.extensions</groupId>
+            <artifactId>guice-multibindings</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.ning.arecibo</groupId>
             <artifactId>arecibo-jmx</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.ning.jdbi</groupId>
-            <artifactId>jdbi-metrics</artifactId>
+            <groupId>com.ning.arecibo</groupId>
+            <artifactId>arecibo-metrics</artifactId>
         </dependency>
         <dependency>
             <groupId>com.ning.jetty</groupId>
             <artifactId>ning-service-skeleton-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
+            <groupId>com.ning.jetty</groupId>
+            <artifactId>ning-service-skeleton-utils</artifactId>
         </dependency>
         <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-server</artifactId>
         </dependency>
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
+            <groupId>com.sun.jersey.contribs</groupId>
+            <artifactId>jersey-guice</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-http</artifactId>
-            <scope>provided</scope>
+            <groupId>com.yammer.metrics</groupId>
+            <artifactId>metrics-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-util</artifactId>
-            <scope>provided</scope>
+            <groupId>org.weakref</groupId>
+            <artifactId>jmxutils</artifactId>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
@@ -97,18 +86,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.jdbi</groupId>
-            <artifactId>jdbi</artifactId>
+            <groupId>org.skife.config</groupId>
+            <artifactId>config-magic</artifactId>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
         </dependency>
     </dependencies>
 </project>
