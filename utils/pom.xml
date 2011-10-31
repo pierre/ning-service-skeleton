@@ -66,8 +66,8 @@
             <artifactId>jdbi-metrics</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ning.jetty</groupId>
-            <artifactId>ning-service-skeleton-core</artifactId>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -99,6 +99,10 @@
         <dependency>
             <groupId>org.jdbi</groupId>
             <artifactId>jdbi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.skife.config</groupId>
+            <artifactId>config-magic</artifactId>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

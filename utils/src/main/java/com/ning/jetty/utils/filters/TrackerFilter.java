@@ -18,7 +18,7 @@ package com.ning.jetty.utils.filters;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.ning.jetty.core.CoreConfig;
+import com.ning.jetty.utils.TrackerConfig;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
@@ -39,13 +39,13 @@ import java.util.Enumeration;
 @Singleton
 public class TrackerFilter implements Filter
 {
-    private final CoreConfig config;
+    private final TrackerConfig config;
     private final Tracker tracker;
 
     private FilterConfig filterConfig;
 
     @Inject
-    public TrackerFilter(final CoreConfig config, final Tracker controller)
+    public TrackerFilter(final TrackerConfig config, final Tracker controller)
     {
         this.config = config;
         this.tracker = controller;
