@@ -23,7 +23,6 @@ import com.yammer.metrics.guice.InstrumentationModule;
 import com.yammer.metrics.reporting.guice.MetricsServletModule;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.skife.config.ConfigurationObjectFactory;
-import org.weakref.jmx.guice.ExportBuilder;
 import org.weakref.jmx.guice.MBeanModule;
 
 import java.util.Properties;
@@ -45,8 +44,6 @@ public class ServerModule extends ServletModule
     @Override
     public void configureServlets()
     {
-        final ExportBuilder builder = MBeanModule.newExporter(binder());
-
         configureConfig();
 
         installJackson();

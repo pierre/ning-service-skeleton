@@ -16,12 +16,17 @@
 
 package com.ning.jetty.base.modules;
 
+import com.google.common.collect.Maps;
 import com.google.inject.Module;
 import com.ning.jetty.core.modules.ServerModule;
 import com.yammer.metrics.core.HealthCheck;
 
+import javax.servlet.Filter;
+import javax.servlet.http.HttpServlet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ServerModuleBuilder
 {
@@ -32,6 +37,8 @@ public class ServerModuleBuilder
     private boolean trackRequests = false;
     private final List<String> resources = new ArrayList<String>();
     private final List<Module> modules = new ArrayList<Module>();
+    private final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filters = new HashMap<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>>();
+    private final Map<String, Class<? extends HttpServlet>> serves = new HashMap<String, Class<? extends HttpServlet>>();
 
     public ServerModuleBuilder()
     {
@@ -79,6 +86,27 @@ public class ServerModuleBuilder
         return this;
     }
 
+    public ServerModuleBuilder addFilter(final String urlPattern, final Class<? extends Filter> filterKey)
+    {
+        return addFilter(urlPattern, filterKey, new HashMap<String, String>());
+    }
+
+    public ServerModuleBuilder addFilter(final String urlPattern, final Class<? extends Filter> filterKey, final Map<String, String> initParams)
+    {
+        if (this.filters.get(urlPattern) == null) {
+            this.filters.put(urlPattern, new ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>());
+        }
+
+        this.filters.get(urlPattern).add(Maps.<Class<? extends Filter>, Map<String, String>>immutableEntry(filterKey, initParams));
+        return this;
+    }
+
+    public ServerModuleBuilder addServe(final String urlPattern, final Class<? extends HttpServlet> filterKey)
+    {
+        this.serves.put(urlPattern, filterKey);
+        return this;
+    }
+
     public ServerModule build()
     {
         return new BaseServerModule(configs,
@@ -87,6 +115,8 @@ public class ServerModuleBuilder
             areciboProfile,
             trackRequests,
             resources,
-            modules);
+            modules,
+            filters,
+            serves);
     }
 }

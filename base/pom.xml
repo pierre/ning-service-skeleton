@@ -49,6 +49,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>com.ning</groupId>
+            <artifactId>metrics.eventtracker-smile</artifactId>
+            <version>4.0.2</version>
+        </dependency>
+        <dependency>
             <groupId>com.ning.arecibo</groupId>
             <artifactId>arecibo-jmx</artifactId>
         </dependency>

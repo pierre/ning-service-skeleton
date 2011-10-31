@@ -23,7 +23,14 @@ import com.google.inject.multibindings.Multibinder;
 import com.ning.arecibo.jmx.AreciboMonitoringModule;
 import com.ning.arecibo.metrics.guice.AreciboMetricsModule;
 import com.ning.jetty.core.modules.ServerModule;
+import com.ning.jetty.utils.DaoConfig;
+import com.ning.jetty.utils.TrackerConfig;
 import com.ning.jetty.utils.arecibo.Jetty7AreciboConnector;
+import com.ning.jetty.utils.filters.CollectorTracker;
+import com.ning.jetty.utils.filters.Tracker;
+import com.ning.jetty.utils.filters.TrackerFilter;
+import com.ning.metrics.eventtracker.CollectorControllerHttpMBeanModule;
+import com.ning.metrics.eventtracker.CollectorControllerSmileModule;
 import com.sun.jersey.api.container.filter.GZIPContentEncodingFilter;
 import com.sun.jersey.api.container.filter.LoggingFilter;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
@@ -33,8 +40,11 @@ import org.skife.config.ConfigurationObjectFactory;
 import org.weakref.jmx.guice.ExportBuilder;
 import org.weakref.jmx.guice.MBeanModule;
 
+import javax.servlet.Filter;
+import javax.servlet.http.HttpServlet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import static com.sun.jersey.api.core.PackagesResourceConfig.PROPERTY_PACKAGES;
@@ -72,6 +82,8 @@ public class BaseServerModule extends ServerModule
     final List<String> resources = new ArrayList<String>();
     // Extra Guice modules to install
     final List<Module> modules = new ArrayList<Module>();
+    private Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filters;
+    private Map<String, Class<? extends HttpServlet>> serves;
 
     public BaseServerModule(final List<Class> configs,
                             final List<Class<? extends HealthCheck>> healthchecks,
@@ -79,7 +91,9 @@ public class BaseServerModule extends ServerModule
                             final String areciboProfile,
                             final boolean trackRequests,
                             final List<String> resources,
-                            final List<Module> modules)
+                            final List<Module> modules,
+                            final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filters,
+                            final Map<String, Class<? extends HttpServlet>> serves)
     {
         this.props = System.getProperties();
         this.configs.addAll(configs);
@@ -89,6 +103,11 @@ public class BaseServerModule extends ServerModule
         this.trackRequests = trackRequests;
         this.resources.addAll(resources);
         this.modules.addAll(modules);
+        this.filters = filters;
+        this.serves = serves;
+
+        this.configs.add(DaoConfig.class);
+        this.configs.add(TrackerConfig.class);
     }
 
     @Override
@@ -98,15 +117,29 @@ public class BaseServerModule extends ServerModule
 
         installHealthChecks();
         installArecibo();
+        installEventtracker();
         installExtraModules();
 
         configureJersey();
+    }
+
+    private void installEventtracker()
+    {
+        if (!trackRequests) {
+            return;
+        }
+
+        install(new CollectorControllerSmileModule());
+        install(new CollectorControllerHttpMBeanModule());
+        bind(Tracker.class).to(CollectorTracker.class).asEagerSingleton();
+        filter("*").through(TrackerFilter.class);
     }
 
     @Override
     protected void configureConfig()
     {
         super.configureConfig();
+
         for (final Class configClass : configs) {
             bind(configClass).toInstance(new ConfigurationObjectFactory(props).build(configClass));
         }
@@ -153,11 +186,20 @@ public class BaseServerModule extends ServerModule
 
     protected void configureJersey()
     {
-        if (resources.size() == 0) {
-            return;
+        for (final String urlPattern : filters.keySet()) {
+            for (final Map.Entry<Class<? extends Filter>, Map<String, String>> filter : filters.get(urlPattern)) {
+                filter(urlPattern).through(filter.getKey(), filter.getValue());
+            }
         }
 
-        JERSEY_PARAMS.put(PROPERTY_PACKAGES, StringUtils.join(resources, ";"));
-        filter("*").through(GuiceContainer.class, JERSEY_PARAMS.build());
+        for (final String urlPattern : serves.keySet()) {
+            serve(urlPattern).with(serves.get(urlPattern), JERSEY_PARAMS.build());
+        }
+
+        // Catch-all resources
+        if (resources.size() != 0) {
+            JERSEY_PARAMS.put(PROPERTY_PACKAGES, StringUtils.join(resources, ";"));
+            filter("*").through(GuiceContainer.class, JERSEY_PARAMS.build());
+        }
     }
 }
