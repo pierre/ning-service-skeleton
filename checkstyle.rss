@@ -2,20 +2,20 @@
 
 <rss version="0.91">
   <channel>
-    <title>ning-service-skeleton-base - Checkstyle report</title>
-    <link>http://github.com/pierre/ning-service-skeleton/ning-service-skeleton-base</link>
-    <description>ning-service-skeleton-base - Checkstyle report</description>
+    <title>ning-service-skeleton - Checkstyle report</title>
+    <link>http://github.com/pierre/ning-service-skeleton</link>
+    <description>ning-service-skeleton - Checkstyle report</description>
     <language>en-us</language>
     <copyright>&#169;2010 - 2011 Ning, Inc.</copyright>
     <item>
-      <title>File: 2,
-             Errors: 117,
+      <title>File: 72,
+             Errors: 692,
              Warnings: 0,
              Infos: 0
       </title>
-            <link>http://github.com/pierre/ning-service-skeleton/ning-service-skeleton-base/checkstyle.html</link>
+            <link>http://github.com/pierre/ning-service-skeleton/checkstyle.html</link>
       <description>
-        <p>Click <a href="http://github.com/pierre/ning-service-skeleton/ning-service-skeleton-base/checkstyle.html">here</a> for the full Checkstyle report.</p>
+        <p>Click <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html">here</a> for the full Checkstyle report.</p>
 
         <table summary="Files" boder="1">
           <thead>
@@ -29,7 +29,21 @@
           <tbody>
                           <tr>
                 <td>
-                  <a href="http://github.com/pierre/ning-service-skeleton/ning-service-skeleton-base/checkstyle.html#com.ning.jetty.base.modules.ServerModuleBuilder.java">com/ning/jetty/base/modules/ServerModuleBuilder.java</a>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#java.com.ning.jetty.core.CoreConfig.java">java/com/ning/jetty/core/CoreConfig.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.base.modules.ServerModuleBuilder.java">com/ning/jetty/base/modules/ServerModuleBuilder.java</a>
                 </td>
                 <td>
                   0
@@ -43,7 +57,511 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://github.com/pierre/ning-service-skeleton/ning-service-skeleton-base/checkstyle.html#com.ning.jetty.base.modules.BaseServerModule.java">com/ning/jetty/base/modules/BaseServerModule.java</a>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.com.ning.jetty.utils.filters.CollectorTracker.java">/com/ning/jetty/utils/filters/CollectorTracker.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  17
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.com.ning.jetty.utils.filters.RequestLog.java">/com/ning/jetty/utils/filters/RequestLog.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  55
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#om.ning.jetty.core.CoreConfig.java">om/ning/jetty/core/CoreConfig.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.utils.filters.CollectorTracker.java">com/ning/jetty/utils/filters/CollectorTracker.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.java.com.ning.jetty.utils.servlets.ServiceFinder.java">/java/com/ning/jetty/utils/servlets/ServiceFinder.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.com.ning.jetty.utils.log4j.LogLevelCounter.java">/com/ning/jetty/utils/log4j/LogLevelCounter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  50
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.com.ning.jetty.utils.arecibo.BoneCPAreciboConnector.java">/com/ning/jetty/utils/arecibo/BoneCPAreciboConnector.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.utils.DaoConfig.java">com/ning/jetty/utils/DaoConfig.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.com.ning.jetty.utils.servlets.HttpProxyServlet.java">/com/ning/jetty/utils/servlets/HttpProxyServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  66
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.utils.providers.DBIProvider.java">com/ning/jetty/utils/providers/DBIProvider.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.utils.filters.PeepingTomRequestWrapper.java">com/ning/jetty/utils/filters/PeepingTomRequestWrapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.java.com.ning.jetty.utils.providers.DBIProvider.java">/java/com/ning/jetty/utils/providers/DBIProvider.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#java.com.ning.jetty.base.modules.BaseServerModule.java">java/com/ning/jetty/base/modules/BaseServerModule.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.java.com.ning.jetty.utils.filters.Tracker.java">/java/com/ning/jetty/utils/filters/Tracker.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.com.ning.jetty.utils.healthchecks.DBIHealthCheck.java">/com/ning/jetty/utils/healthchecks/DBIHealthCheck.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  16
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.java.com.ning.jetty.utils.arecibo.Jetty7AreciboConnector.java">/java/com/ning/jetty/utils/arecibo/Jetty7AreciboConnector.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.java.com.ning.jetty.utils.filters.TrackerFilter.java">/java/com/ning/jetty/utils/filters/TrackerFilter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.com.ning.jetty.utils.filters.TrackerFilter.java">/com/ning/jetty/utils/filters/TrackerFilter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  27
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.java.com.ning.jetty.utils.filters.PeepingTomResponseWrapper.java">/java/com/ning/jetty/utils/filters/PeepingTomResponseWrapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#java.com.ning.jetty.base.modules.ServerModuleBuilder.java">java/com/ning/jetty/base/modules/ServerModuleBuilder.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.java.com.ning.jetty.utils.healthchecks.DBIHealthCheck.java">/java/com/ning/jetty/utils/healthchecks/DBIHealthCheck.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.core.listeners.SetupJULBridge.java">com/ning/jetty/core/listeners/SetupJULBridge.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#java.com.ning.jetty.core.listeners.SetupServer.java">java/com/ning/jetty/core/listeners/SetupServer.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.core.modules.ServerModule.java">com/ning/jetty/core/modules/ServerModule.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  25
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.com.ning.jetty.utils.log4j.LogLevelCounterAppender.java">/com/ning/jetty/utils/log4j/LogLevelCounterAppender.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  43
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.utils.servlets.HttpProxyServlet.java">com/ning/jetty/utils/servlets/HttpProxyServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.com.ning.jetty.utils.arecibo.Jetty7AreciboConnector.java">/com/ning/jetty/utils/arecibo/Jetty7AreciboConnector.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.utils.filters.RequestLog.java">com/ning/jetty/utils/filters/RequestLog.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.com.ning.jetty.utils.filters.PeepingTomRequestWrapper.java">/com/ning/jetty/utils/filters/PeepingTomRequestWrapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  39
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.utils.filters.Tracker.java">com/ning/jetty/utils/filters/Tracker.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.java.com.ning.jetty.utils.arecibo.BoneCPAreciboConnector.java">/java/com/ning/jetty/utils/arecibo/BoneCPAreciboConnector.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.com.ning.jetty.utils.log4j.Log4JMBean.java">/com/ning/jetty/utils/log4j/Log4JMBean.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  47
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.utils.TrackerConfig.java">com/ning/jetty/utils/TrackerConfig.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.java.com.ning.jetty.utils.filters.RequestLog.java">/java/com/ning/jetty/utils/filters/RequestLog.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#om.ning.jetty.base.modules.BaseServerModule.java">om/ning/jetty/base/modules/BaseServerModule.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.java.com.ning.jetty.utils.log4j.LogLevelCounterAppender.java">/java/com/ning/jetty/utils/log4j/LogLevelCounterAppender.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.base.modules.BaseServerModule.java">com/ning/jetty/base/modules/BaseServerModule.java</a>
                 </td>
                 <td>
                   0
@@ -53,6 +571,468 @@
                 </td>
                 <td>
                   65
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.java.com.ning.jetty.utils.filters.CollectorTracker.java">/java/com/ning/jetty/utils/filters/CollectorTracker.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.java.com.ning.jetty.utils.filters.PeepingTomRequestWrapper.java">/java/com/ning/jetty/utils/filters/PeepingTomRequestWrapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.utils.log4j.LogLevelCounterAppender.java">com/ning/jetty/utils/log4j/LogLevelCounterAppender.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#om.ning.jetty.core.modules.ServerModule.java">om/ning/jetty/core/modules/ServerModule.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.utils.servlets.ServiceFinder.java">com/ning/jetty/utils/servlets/ServiceFinder.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.utils.log4j.LogLevelCounter.java">com/ning/jetty/utils/log4j/LogLevelCounter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.core.CoreConfig.java">com/ning/jetty/core/CoreConfig.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#om.ning.jetty.core.listeners.SetupServer.java">om/ning/jetty/core/listeners/SetupServer.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.com.ning.jetty.utils.filters.Tracker.java">/com/ning/jetty/utils/filters/Tracker.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.utils.filters.TrackerFilter.java">com/ning/jetty/utils/filters/TrackerFilter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.com.ning.jetty.utils.DaoConfig.java">/com/ning/jetty/utils/DaoConfig.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  13
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.core.listeners.SetupServer.java">com/ning/jetty/core/listeners/SetupServer.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  27
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.com.ning.jetty.utils.TrackerConfig.java">/com/ning/jetty/utils/TrackerConfig.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.com.ning.jetty.utils.servlets.ServiceFinder.java">/com/ning/jetty/utils/servlets/ServiceFinder.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#java.com.ning.jetty.core.servlets.LogInvalidResourcesServlet.java">java/com/ning/jetty/core/servlets/LogInvalidResourcesServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.utils.log4j.Log4JMBean.java">com/ning/jetty/utils/log4j/Log4JMBean.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.java.com.ning.jetty.utils.log4j.Log4JMBean.java">/java/com/ning/jetty/utils/log4j/Log4JMBean.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.utils.arecibo.BoneCPAreciboConnector.java">com/ning/jetty/utils/arecibo/BoneCPAreciboConnector.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.com.ning.jetty.utils.filters.PeepingTomResponseWrapper.java">/com/ning/jetty/utils/filters/PeepingTomResponseWrapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  84
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.com.ning.jetty.utils.providers.DBIProvider.java">/com/ning/jetty/utils/providers/DBIProvider.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.core.servlets.LogInvalidResourcesServlet.java">com/ning/jetty/core/servlets/LogInvalidResourcesServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  17
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#java.com.ning.jetty.core.modules.ServerModule.java">java/com/ning/jetty/core/modules/ServerModule.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#om.ning.jetty.base.modules.ServerModuleBuilder.java">om/ning/jetty/base/modules/ServerModuleBuilder.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.java.com.ning.jetty.utils.DaoConfig.java">/java/com/ning/jetty/utils/DaoConfig.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#java.com.ning.jetty.core.listeners.SetupJULBridge.java">java/com/ning/jetty/core/listeners/SetupJULBridge.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.java.com.ning.jetty.utils.TrackerConfig.java">/java/com/ning/jetty/utils/TrackerConfig.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.utils.arecibo.Jetty7AreciboConnector.java">com/ning/jetty/utils/arecibo/Jetty7AreciboConnector.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#om.ning.jetty.core.listeners.SetupJULBridge.java">om/ning/jetty/core/listeners/SetupJULBridge.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#om.ning.jetty.core.servlets.LogInvalidResourcesServlet.java">om/ning/jetty/core/servlets/LogInvalidResourcesServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.java.com.ning.jetty.utils.log4j.LogLevelCounter.java">/java/com/ning/jetty/utils/log4j/LogLevelCounter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#.java.com.ning.jetty.utils.servlets.HttpProxyServlet.java">/java/com/ning/jetty/utils/servlets/HttpProxyServlet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.utils.healthchecks.DBIHealthCheck.java">com/ning/jetty/utils/healthchecks/DBIHealthCheck.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/pierre/ning-service-skeleton/checkstyle.html#com.ning.jetty.utils.filters.PeepingTomResponseWrapper.java">com/ning/jetty/utils/filters/PeepingTomResponseWrapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
                 </td>
               </tr>
                       </tbody>
