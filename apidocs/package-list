@@ -1,4 +1,7 @@
-com.ning.jetty.core
-com.ning.jetty.core.listeners
-com.ning.jetty.core.modules
-com.ning.jetty.core.servlets
+com.ning.jetty.utils
+com.ning.jetty.utils.arecibo
+com.ning.jetty.utils.filters
+com.ning.jetty.utils.healthchecks
+com.ning.jetty.utils.log4j
+com.ning.jetty.utils.providers
+com.ning.jetty.utils.servlets
