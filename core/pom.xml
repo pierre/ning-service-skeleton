@@ -89,6 +89,12 @@
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mortbay.jetty</groupId>
+                    <artifactId>servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.skife.config</groupId>
@@ -128,43 +134,11 @@
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <dependencies>
-                    <!-- Add the provided dependencies -->
-                    <dependency>
-                        <groupId>com.google.guava</groupId>
-                        <artifactId>guava</artifactId>
-                        <version>r09</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.google.inject</groupId>
-                        <artifactId>guice</artifactId>
-                        <version>3.0</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.google.inject.extensions</groupId>
-                        <artifactId>guice-servlet</artifactId>
-                        <version>3.0</version>
-                    </dependency>
-                    <dependency><!-- Needed by jmxutils -->
-                        <groupId>com.google.inject.extensions</groupId>
-                        <artifactId>guice-multibindings</artifactId>
-                        <version>3.0</version>
-                    </dependency>
                     <dependency><!-- Default skeleton uses MySQL, see DaoConfig -->
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
-                        <version>5.1.17</version>
                         <scope>runtime</scope>
-                    </dependency>
-                    <!-- Needed to redirect Jetty logs to slf4j -->
-                    <dependency>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-api</artifactId>
-                        <version>1.6.2</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-log4j12</artifactId>
-                        <version>1.6.2</version>
+                        <version>5.1.18</version>
                     </dependency>
                 </dependencies>
                 <configuration>
