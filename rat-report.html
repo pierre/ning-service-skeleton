@@ -17,7 +17,7 @@
   <body class="composite">
     <div id="banner">
                     <div id="bannerLeft">
-                ning-service-skeleton
+                ning-service-skeleton-core
                 </div>
                     <div class="clear">
         <hr/>
@@ -41,19 +41,14 @@
       <div id="navcolumn">
              
         
-                                          <h5>Sub Modules</h5>
+                                <h5>Parent Project</h5>
                   <ul>
                   <li class="none">
-                          <a href="ning-service-skeleton-base/index.html" title="ning-service-skeleton-base">ning-service-skeleton-base</a>
-            </li>
-                  <li class="none">
-                          <a href="ning-service-skeleton-core/index.html" title="ning-service-skeleton-core">ning-service-skeleton-core</a>
-            </li>
-                  <li class="none">
-                          <a href="ning-service-skeleton-utils/index.html" title="ning-service-skeleton-utils">ning-service-skeleton-utils</a>
+                          <a href="../index.html" title="ning-service-skeleton">ning-service-skeleton</a>
             </li>
           </ul>
-                             <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
+                       <h5>Sub Modules</h5>
+                                       <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
         <img class="poweredBy" alt="Built by Maven" src="./images/logos/maven-feather.png" />
       </a>
                    
@@ -69,20 +64,23 @@ Summary
 Notes: 0
 Binaries: 0
 Archives: 0
-Standards: 2
+Standards: 14
 
-Apache Licensed: 2
+Apache Licensed: 11
 Generated Documents: 0
 
 JavaDocs are generated and so license header is optional
 Generated files do not required license headers
 
-0 Unknown Licenses
+3 Unknown Licenses
 
 *******************************
 
 Unapproved licenses:
 
+  /Users/pierre/open-source/ning-service-skeleton/core/logs/2011_09_26.request.log
+  /Users/pierre/open-source/ning-service-skeleton/core/logs/2011_09_27.request.log
+  /Users/pierre/open-source/ning-service-skeleton/core/logs/http.log
 
 *******************************
 
@@ -93,13 +91,45 @@ Archives:
   Binary files (which do not require AL headers) will be marked B
   Compressed archives will be marked A
   Notices, licenses etc will be marked N
-  AL    LICENSE-2.0.txt
-  AL    pom.xml
+ !????? /Users/pierre/open-source/ning-service-skeleton/core/logs/2011_09_26.request.log
+ !????? /Users/pierre/open-source/ning-service-skeleton/core/logs/2011_09_27.request.log
+ !????? /Users/pierre/open-source/ning-service-skeleton/core/logs/http.log
+  AL    /Users/pierre/open-source/ning-service-skeleton/core/pom.xml
+  AL    /Users/pierre/open-source/ning-service-skeleton/core/src/main/java/com/ning/jetty/core/CoreConfig.java
+  AL    /Users/pierre/open-source/ning-service-skeleton/core/src/main/java/com/ning/jetty/core/listeners/SetupJULBridge.java
+  AL    /Users/pierre/open-source/ning-service-skeleton/core/src/main/java/com/ning/jetty/core/listeners/SetupServer.java
+  AL    /Users/pierre/open-source/ning-service-skeleton/core/src/main/java/com/ning/jetty/core/modules/ServerModule.java
+  AL    /Users/pierre/open-source/ning-service-skeleton/core/src/main/java/com/ning/jetty/core/servlets/LogInvalidResourcesServlet.java
+  AL    /Users/pierre/open-source/ning-service-skeleton/core/src/test/jetty-config/contexts/root.xml
+  AL    /Users/pierre/open-source/ning-service-skeleton/core/src/test/jetty-config/etc/webdefault.xml
+  AL    /Users/pierre/open-source/ning-service-skeleton/core/src/test/jetty-config/ning-jetty-conf.xml
+  AL    /Users/pierre/open-source/ning-service-skeleton/core/src/test/resources/log4j.xml
+  AL    /Users/pierre/open-source/ning-service-skeleton/core/src/test/webapp/WEB-INF/web.xml
  
  *****************************************************
  Printing headers for files without AL header...
  
- </pre></div></div>
+ 
+ =======================================================================
+ ==/Users/pierre/open-source/ning-service-skeleton/core/logs/2011_09_26.request.log
+ =======================================================================
+
+ =======================================================================
+ ==/Users/pierre/open-source/ning-service-skeleton/core/logs/2011_09_27.request.log
+ =======================================================================
+127.0.0.1 -  -  [27/Sep/2011:00:08:02 +0000] &quot;GET / HTTP/1.1&quot; 404 1365 
+127.0.0.1 -  -  [27/Sep/2011:00:08:16 +0000] &quot;GET /1.0/healthcheck HTTP/1.1&quot; 500 31 
+127.0.0.1 -  -  [27/Sep/2011:00:08:22 +0000] &quot;GET /1.0/metrics HTTP/1.1&quot; 200 757 
+127.0.0.1 -  -  [27/Sep/2011:00:20:25 +0000] &quot;GET /1.0/healthcheck HTTP/1.1&quot; 500 31 
+127.0.0.1 -  -  [27/Sep/2011:00:25:05 +0000] &quot;GET /1.0/healthcheck HTTP/1.1&quot; 500 4011 
+127.0.0.1 -  -  [27/Sep/2011:00:26:29 +0000] &quot;GET /1.0/healthcheck HTTP/1.1&quot; 200 21 
+127.0.0.1 -  -  [27/Sep/2011:14:42:06 +0000] &quot;GET /1.0/metrics HTTP/1.1&quot; 200 758 
+127.0.0.1 -  -  [27/Sep/2011:14:42:08 +0000] &quot;GET /1.0/healthcheck HTTP/1.1&quot; 200 21 
+
+ =======================================================================
+ ==/Users/pierre/open-source/ning-service-skeleton/core/logs/http.log
+ =======================================================================
+</pre></div></div>
       </div>
     </div>
     <div class="clear">
