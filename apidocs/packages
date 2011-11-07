@@ -1,1 +1,6 @@
-com.ning.jetty.log4j
+com.ning.jetty.utils.arecibo
+com.ning.jetty.utils
+com.ning.jetty.utils.filters
+com.ning.jetty.utils.healthchecks
+com.ning.jetty.utils.providers
+com.ning.jetty.utils.servlets
