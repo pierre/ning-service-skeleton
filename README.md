@@ -53,12 +53,12 @@ Log4j
 
 1.  LogLevelCounterAppender
 
-    The `com.ning.jetty.utils.log4j.LogLevelCounterAppender` log4j appender can be used to gather statistics on a per logger
+    The `com.ning.jetty.log4j.LogLevelCounterAppender` log4j appender can be used to gather statistics on a per logger
     and level basis (via JMX).
 
     To use it, configure your log4j.xml:
 
-        <appender name="LOG_LEVEL_COUNTER" class="com.ning.jetty.utils.log4j.LogLevelCounterAppender"/>
+        <appender name="LOG_LEVEL_COUNTER" class="com.ning.jetty.log4j.LogLevelCounterAppender"/>
         <root>
             <priority value="WARN"/>
             <appender-ref ref="LOG_LEVEL_COUNTER"/>

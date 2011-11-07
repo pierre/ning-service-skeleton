@@ -14,9 +14,8 @@
  * under the License.
  */
 
-package com.ning.jetty.utils.log4j;
+package com.ning.jetty.log4j;
 
-import com.google.inject.Inject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -30,7 +29,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static com.ning.jetty.utils.log4j.LogLevelCounter.LevelIndex;
+import static com.ning.jetty.log4j.LogLevelCounter.LevelIndex;
 
 public class Log4JMBean
 {
@@ -38,7 +37,6 @@ public class Log4JMBean
 
     private LogLevelCounter counter = null;
 
-    @Inject
     public Log4JMBean()
     {
         initLogLevelCounting();

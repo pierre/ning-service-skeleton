@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package com.ning.jetty.utils.log4j;
+package com.ning.jetty.log4j;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.Layout;
