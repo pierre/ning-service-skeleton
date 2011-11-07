@@ -163,4 +163,32 @@ public class Log4JMBean
         final Level level = LevelIndex.getLevelFromLevelString(levelString);
         counter.setCountingEnabledByLevel(level, enabled);
     }
+
+    /*
+     * The following is mostly to expose stats to Arecibo
+     */
+
+    @Managed(description = "Get the count of log events for DEBUG")
+    public long getLogLevelCountForDebug()
+    {
+        return getLogLevelCountByLevel(LevelIndex.DEBUG_INDEX.getLevelString());
+    }
+
+    @Managed(description = "Get the count of log events for INFO")
+    public long getLogLevelCountForInfo()
+    {
+        return getLogLevelCountByLevel(LevelIndex.INFO_INDEX.getLevelString());
+    }
+
+    @Managed(description = "Get the count of log events for WARN")
+    public long getLogLevelCountForWarn()
+    {
+        return getLogLevelCountByLevel(LevelIndex.WARN_INDEX.getLevelString());
+    }
+
+    @Managed(description = "Get the count of log events for ERROR")
+    public long getLogLevelCountForError()
+    {
+        return getLogLevelCountByLevel(LevelIndex.ERROR_INDEX.getLevelString());
+    }
 }

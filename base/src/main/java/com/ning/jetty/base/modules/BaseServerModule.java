@@ -23,9 +23,11 @@ import com.google.inject.multibindings.Multibinder;
 import com.ning.arecibo.jmx.AreciboMonitoringModule;
 import com.ning.arecibo.metrics.guice.AreciboMetricsModule;
 import com.ning.jetty.core.modules.ServerModule;
+import com.ning.jetty.log4j.Log4JMBean;
 import com.ning.jetty.utils.DaoConfig;
 import com.ning.jetty.utils.TrackerConfig;
 import com.ning.jetty.utils.arecibo.Jetty7AreciboConnector;
+import com.ning.jetty.utils.arecibo.Log4JMBeanAreciboConnector;
 import com.ning.jetty.utils.filters.CollectorTracker;
 import com.ning.jetty.utils.filters.Tracker;
 import com.ning.jetty.utils.filters.TrackerFilter;
@@ -78,6 +80,8 @@ public class BaseServerModule extends ServerModule
     private String areciboProfile = null;
     // eventtracker integration
     private boolean trackRequests = false;
+    // Whether log4j is used
+    private boolean log4jEnabled = false;
     // Jersey resources
     final List<String> resources = new ArrayList<String>();
     // Extra Guice modules to install
@@ -90,6 +94,7 @@ public class BaseServerModule extends ServerModule
                             final List<Class> beans,
                             final String areciboProfile,
                             final boolean trackRequests,
+                            final boolean log4jEnabled,
                             final List<String> resources,
                             final List<Module> modules,
                             final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filters,
@@ -100,6 +105,7 @@ public class BaseServerModule extends ServerModule
         this.healthchecks.addAll(healthchecks);
         this.beans.addAll(beans);
         this.areciboProfile = areciboProfile;
+        this.log4jEnabled = log4jEnabled;
         this.trackRequests = trackRequests;
         this.resources.addAll(resources);
         this.modules.addAll(modules);
@@ -118,6 +124,7 @@ public class BaseServerModule extends ServerModule
         installHealthChecks();
         installArecibo();
         installEventtracker();
+        installLog4j();
         installExtraModules();
 
         configureJersey();
@@ -133,6 +140,15 @@ public class BaseServerModule extends ServerModule
         install(new CollectorControllerHttpMBeanModule());
         bind(Tracker.class).to(CollectorTracker.class).asEagerSingleton();
         filter("*").through(TrackerFilter.class);
+    }
+
+    private void installLog4j()
+    {
+        if (!log4jEnabled) {
+            return;
+        }
+
+        bind(Log4JMBean.class).asEagerSingleton();
     }
 
     @Override
@@ -153,6 +169,10 @@ public class BaseServerModule extends ServerModule
         final ExportBuilder builder = MBeanModule.newExporter(binder());
         for (final Class beanClass : beans) {
             builder.export(beanClass).withGeneratedName();
+        }
+
+        if (log4jEnabled) {
+            builder.export(Log4JMBean.class).withGeneratedName();
         }
     }
 
@@ -175,6 +195,10 @@ public class BaseServerModule extends ServerModule
         // Expose metrics objects to Arecibo
         install(new AreciboMetricsModule());
         bind(Jetty7AreciboConnector.class).asEagerSingleton();
+
+        if (log4jEnabled) {
+            bind(Log4JMBeanAreciboConnector.class).asEagerSingleton();
+        }
     }
 
     private void installExtraModules()

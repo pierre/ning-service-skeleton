@@ -35,7 +35,6 @@ public class LogLevelCounterAppender implements Appender
     public static void registerLogLevelCounter(final LogLevelCounter counter)
     {
         synchronized (LogLevelCounterAppender.class) {
-
             // Only allow one registered LogLevelCounter
             if (isCounterRegistered) {
                 log.warn("Attempt to register multiple LogLevelCounter's -- IGNORED");

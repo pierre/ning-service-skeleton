@@ -35,6 +35,7 @@ public class ServerModuleBuilder
     private final List<Class> beans = new ArrayList<Class>();
     private String areciboProfile = null;
     private boolean trackRequests = false;
+    private boolean log4jEnabled = false;
     private final List<String> resources = new ArrayList<String>();
     private final List<Module> modules = new ArrayList<Module>();
     private final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filters = new HashMap<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>>();
@@ -71,6 +72,12 @@ public class ServerModuleBuilder
     public ServerModuleBuilder trackRequests()
     {
         this.trackRequests = true;
+        return this;
+    }
+
+    public ServerModuleBuilder enableLog4J()
+    {
+        this.log4jEnabled = true;
         return this;
     }
 
@@ -114,6 +121,7 @@ public class ServerModuleBuilder
             beans,
             areciboProfile,
             trackRequests,
+            log4jEnabled,
             resources,
             modules,
             filters,

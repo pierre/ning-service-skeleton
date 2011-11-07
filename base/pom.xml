@@ -65,6 +65,10 @@
         </dependency>
         <dependency>
             <groupId>com.ning.jetty</groupId>
+            <artifactId>ning-service-skeleton-log4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ning.jetty</groupId>
             <artifactId>ning-service-skeleton-utils</artifactId>
         </dependency>
         <dependency>
