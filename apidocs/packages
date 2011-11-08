@@ -1,4 +1,1 @@
-com.ning.jetty.core
-com.ning.jetty.core.listeners
-com.ning.jetty.core.modules
-com.ning.jetty.core.servlets
+com.ning.jetty.log4j

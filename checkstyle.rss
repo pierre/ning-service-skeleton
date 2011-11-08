@@ -2,20 +2,20 @@
 
 <rss version="0.91">
   <channel>
-    <title>ning-service-skeleton-core - Checkstyle report</title>
-    <link>http://github.com/pierre/ning-service-skeleton/ning-service-skeleton-core</link>
-    <description>ning-service-skeleton-core - Checkstyle report</description>
+    <title>ning-service-skeleton-log4j - Checkstyle report</title>
+    <link>http://github.com/pierre/ning-service-skeleton/ning-service-skeleton-log4j</link>
+    <description>ning-service-skeleton-log4j - Checkstyle report</description>
     <language>en-us</language>
     <copyright>&#169;2010 - 2011 Ning, Inc.</copyright>
     <item>
-      <title>File: 5,
-             Errors: 80,
+      <title>File: 3,
+             Errors: 152,
              Warnings: 0,
              Infos: 0
       </title>
-            <link>http://github.com/pierre/ning-service-skeleton/ning-service-skeleton-core/checkstyle.html</link>
+            <link>http://github.com/pierre/ning-service-skeleton/ning-service-skeleton-log4j/checkstyle.html</link>
       <description>
-        <p>Click <a href="http://github.com/pierre/ning-service-skeleton/ning-service-skeleton-core/checkstyle.html">here</a> for the full Checkstyle report.</p>
+        <p>Click <a href="http://github.com/pierre/ning-service-skeleton/ning-service-skeleton-log4j/checkstyle.html">here</a> for the full Checkstyle report.</p>
 
         <table summary="Files" boder="1">
           <thead>
@@ -29,7 +29,7 @@
           <tbody>
                           <tr>
                 <td>
-                  <a href="http://github.com/pierre/ning-service-skeleton/ning-service-skeleton-core/checkstyle.html#com.ning.jetty.core.servlets.LogInvalidResourcesServlet.java">com/ning/jetty/core/servlets/LogInvalidResourcesServlet.java</a>
+                  <a href="http://github.com/pierre/ning-service-skeleton/ning-service-skeleton-log4j/checkstyle.html#com.ning.jetty.log4j.LogLevelCounter.java">com/ning/jetty/log4j/LogLevelCounter.java</a>
                 </td>
                 <td>
                   0
@@ -38,12 +38,12 @@
                   0
                 </td>
                 <td>
-                  15
+                  50
                 </td>
               </tr>
                           <tr>
                 <td>
-                  <a href="http://github.com/pierre/ning-service-skeleton/ning-service-skeleton-core/checkstyle.html#com.ning.jetty.core.listeners.SetupServer.java">com/ning/jetty/core/listeners/SetupServer.java</a>
+                  <a href="http://github.com/pierre/ning-service-skeleton/ning-service-skeleton-log4j/checkstyle.html#com.ning.jetty.log4j.Log4JMBean.java">com/ning/jetty/log4j/Log4JMBean.java</a>
                 </td>
                 <td>
                   0
@@ -52,12 +52,12 @@
                   0
                 </td>
                 <td>
-                  27
+                  59
                 </td>
               </tr>
                           <tr>
                 <td>
-                  <a href="http://github.com/pierre/ning-service-skeleton/ning-service-skeleton-core/checkstyle.html#com.ning.jetty.core.listeners.SetupJULBridge.java">com/ning/jetty/core/listeners/SetupJULBridge.java</a>
+                  <a href="http://github.com/pierre/ning-service-skeleton/ning-service-skeleton-log4j/checkstyle.html#com.ning.jetty.log4j.LogLevelCounterAppender.java">com/ning/jetty/log4j/LogLevelCounterAppender.java</a>
                 </td>
                 <td>
                   0
@@ -66,35 +66,7 @@
                   0
                 </td>
                 <td>
-                  8
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://github.com/pierre/ning-service-skeleton/ning-service-skeleton-core/checkstyle.html#com.ning.jetty.core.modules.ServerModule.java">com/ning/jetty/core/modules/ServerModule.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  25
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://github.com/pierre/ning-service-skeleton/ning-service-skeleton-core/checkstyle.html#com.ning.jetty.core.CoreConfig.java">com/ning/jetty/core/CoreConfig.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  5
+                  43
                 </td>
               </tr>
                       </tbody>
