@@ -16,6 +16,7 @@
   -->
 <project>
     <body>
-        <menu name="Sub Modules" ref="modules" inherit="bottom" />
+        <menu ref="modules"/>
+        <menu ref="reports"/>
     </body>
 </project>
