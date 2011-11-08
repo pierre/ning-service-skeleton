@@ -30,6 +30,20 @@ public class Jetty7AreciboConnector
     @Inject
     public Jetty7AreciboConnector(final AreciboProfile profile)
     {
+        new MBeanRegistrar("org.eclipse.jetty.server.bio:type=socketconnector,id=0")
+            .addCounter("requests")
+            .addCounter("connections")
+            .addValue("connectionsDurationMax")
+            .addValue("connectionsDurationMean")
+            .addValue("connectionsDurationStdDev")
+            .addCounter("connectionsDurationTotal")
+            .addValue("connectionsOpen")
+            .addValue("connectionsOpenMax")
+            .addValue("connectionsRequestsMax")
+            .addValue("connectionsRequestsMean")
+            .addValue("connectionsRequestsStdDev")
+            .register(profile);
+
         new MBeanRegistrar("org.eclipse.jetty.server.nio:type=selectchannelconnector,id=0")
             .addCounter("requests")
             .addCounter("connections")
@@ -59,7 +73,6 @@ public class Jetty7AreciboConnector
             .register(profile);
 
         new MBeanRegistrar("org.eclipse.jetty.util.thread:type=queuedthreadpool,id=0")
-            .addValue("idleThreads")
             .addValue("idleThreads")
             .register(profile);
     }
