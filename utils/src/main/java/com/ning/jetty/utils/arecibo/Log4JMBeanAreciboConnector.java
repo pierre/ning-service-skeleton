@@ -31,10 +31,10 @@ public class Log4JMBeanAreciboConnector
     public Log4JMBeanAreciboConnector(final AreciboProfile profile)
     {
         new MBeanRegistrar("com.ning.jetty.log4j:type=Log4JMBean")
-            .addCounter("getLogLevelCountForDebug")
-            .addCounter("getLogLevelCountForInfo")
-            .addCounter("getLogLevelCountForWarn")
-            .addCounter("getLogLevelCountForError")
+            .addCounter("LogLevelCountForDebug")
+            .addCounter("LogLevelCountForInfo")
+            .addCounter("LogLevelCountForWarn")
+            .addCounter("LogLevelCountForError")
             .register(profile);
     }
 }
