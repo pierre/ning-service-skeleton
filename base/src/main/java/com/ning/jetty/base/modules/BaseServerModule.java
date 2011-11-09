@@ -53,7 +53,6 @@ import static com.sun.jersey.api.core.PackagesResourceConfig.PROPERTY_PACKAGES;
 import static com.sun.jersey.api.core.ResourceConfig.PROPERTY_CONTAINER_REQUEST_FILTERS;
 import static com.sun.jersey.api.core.ResourceConfig.PROPERTY_CONTAINER_RESPONSE_FILTERS;
 
-
 public class BaseServerModule extends ServerModule
 {
     private static final List<String> FILTERS = ImmutableList.of(
