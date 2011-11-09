@@ -23,6 +23,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -63,18 +64,29 @@ public class PeepingTomResponseWrapper extends ServletResponseWrapper implements
     private class OpenableServletOutputStream extends ServletOutputStream
     {
         private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        private final ServletOutputStream originalOutputStream;
+        private ServletOutputStream originalOutputStream = null;
+        private PrintWriter originalWriter = null;
 
         public OpenableServletOutputStream(final ServletOutputStream originalOutputStream)
         {
             this.originalOutputStream = originalOutputStream;
         }
 
+        public OpenableServletOutputStream(final PrintWriter originalWriter)
+        {
+            this.originalWriter = originalWriter;
+        }
+
         @Override
         public void write(final int b) throws IOException
         {
             outputStream.write(b);
-            originalOutputStream.write(b);
+            if (originalOutputStream != null) {
+                originalOutputStream.write(b);
+            }
+            else {
+                originalWriter.write(b);
+            }
             firstByteReceived = System.currentTimeMillis();
         }
 
@@ -94,8 +106,14 @@ public class PeepingTomResponseWrapper extends ServletResponseWrapper implements
     public ServletOutputStream getOutputStream() throws IOException
     {
         if (stream == null) {
-            final ServletOutputStream originalOutputStream = super.getOutputStream();
-            stream = new OpenableServletOutputStream(originalOutputStream);
+            try {
+                final ServletOutputStream originalOutputStream = super.getOutputStream();
+                stream = new OpenableServletOutputStream(originalOutputStream);
+            }
+            catch (IllegalStateException e) {
+                final PrintWriter originalWriter = super.getWriter();
+                stream = new OpenableServletOutputStream(originalWriter);
+            }
         }
         return stream;
     }
