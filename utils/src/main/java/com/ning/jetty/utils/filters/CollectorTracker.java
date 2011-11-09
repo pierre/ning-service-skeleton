@@ -18,9 +18,9 @@ package com.ning.jetty.utils.filters;
 
 import com.google.inject.Inject;
 import com.ning.metrics.eventtracker.CollectorController;
+import com.ning.metrics.eventtracker.smile.com.ning.metrics.serialization.event.SmileEnvelopeEvent;
 import com.ning.metrics.eventtracker.smile.org.codehaus.jackson.JsonNode;
 import com.ning.metrics.eventtracker.smile.org.codehaus.jackson.map.ObjectMapper;
-import com.ning.metrics.serialization.event.SmileEnvelopeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
