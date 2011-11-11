@@ -99,7 +99,7 @@ public class SetupServer extends GuiceServletContextListener
      * the actual injector. This requires some inside knowledge on where it is
      * stored, but the actual key is not visible outside the guice packages.
      */
-    Injector injector(final ServletContextEvent event)
+    public Injector injector(final ServletContextEvent event)
     {
         return (Injector) event.getServletContext().getAttribute(Injector.class.getName());
     }
