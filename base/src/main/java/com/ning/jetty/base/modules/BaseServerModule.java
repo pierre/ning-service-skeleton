@@ -177,8 +177,6 @@ public class BaseServerModule extends ServerModule
 
     protected void installHealthChecks()
     {
-        final Multibinder<HealthCheck> healthChecksBinder = Multibinder.newSetBinder(binder(), HealthCheck.class);
-
         for (final Class<? extends HealthCheck> healthCheckClass : healthchecks) {
             healthChecksBinder.addBinding().to(healthCheckClass).asEagerSingleton();
         }
