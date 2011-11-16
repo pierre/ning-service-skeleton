@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * HttpServletResquest wrapper that exposes the underlying stream and other attributes
@@ -31,12 +32,14 @@ public class PeepingTomRequestWrapper extends HttpServletRequestWrapper
 
     private final String method;
     private final String requestURI;
+    private final Map<String, String[]> parameterMap;
 
     public PeepingTomRequestWrapper(final HttpServletRequest request)
     {
         super(request);
         this.method = request.getMethod();
         this.requestURI = request.getRequestURI();
+        this.parameterMap = request.getParameterMap();
     }
 
     @Override
@@ -100,6 +103,11 @@ public class PeepingTomRequestWrapper extends HttpServletRequestWrapper
             stream = new OpenableServletInputStream(originalInputStream);
         }
         return stream;
+    }
+
+    @Override
+    public Map<String, String[]> getParameterMap() {
+        return parameterMap;
     }
 
     public ByteArrayInputStream getUnderlyingStream()
