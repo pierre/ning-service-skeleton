@@ -16,6 +16,7 @@
 
 package com.ning.jetty.base.modules;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Module;
@@ -32,7 +33,6 @@ import com.ning.jetty.utils.filters.Tracker;
 import com.ning.jetty.utils.filters.TrackerFilter;
 import com.ning.metrics.eventtracker.CollectorControllerHttpMBeanModule;
 import com.ning.metrics.eventtracker.CollectorControllerSmileModule;
-import com.sun.jersey.api.container.filter.GZIPContentEncodingFilter;
 import com.sun.jersey.api.container.filter.LoggingFilter;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 import com.yammer.metrics.core.HealthCheck;
@@ -54,17 +54,32 @@ import static com.sun.jersey.api.core.ResourceConfig.PROPERTY_CONTAINER_RESPONSE
 
 public class BaseServerModule extends ServerModule
 {
-    private static final List<String> FILTERS = ImmutableList.of(
-        GZIPContentEncodingFilter.class.getName(),
+    /**
+     * These configuration parameters are normally specified as init-param entries in the web.xml. We have to set
+     * them here because GuiceFilter instead has you pass them as arguments to
+     * {@link com.google.inject.servlet.ServletModule.ServletKeyBindingBuilder#with(Class, java.util.Map)}.
+     *
+     * @see com.google.inject.servlet.ServletModule#configureServlets()
+     */
+    private static final Iterable<String> requestFilterClassNames = ImmutableList.of(
+        // The logging filter is still incompatible with the GZIP filter
+        //GZIPContentEncodingFilter.class.getName(),
         LoggingFilter.class.getName()
     );
 
+    /**
+     * These items are <i>intentionally</i> in the reverse order of the above filters. Jersey respects the order in which
+     * these items appear, and they should be applied to the response in the reverse order of their application to
+     * the request.
+     */
+    private static final Iterable<String> responseFilterClassNames = ImmutableList.of(
+        LoggingFilter.class.getName()
+        //GZIPContentEncodingFilter.class.getName()
+    );
+
     private static final ImmutableMap.Builder<String, String> JERSEY_PARAMS = new ImmutableMap.Builder<String, String>()
-        .put(PROPERTY_CONTAINER_REQUEST_FILTERS, StringUtils.join(FILTERS, ";"))
-            // Though it would seem to make sense that filters should be applied to responses in reverse order, in fact the
-            // response filters appear to wrap each other up before executing, with the result being that execution order
-            // is the reverse of the declared order.
-        .put(PROPERTY_CONTAINER_RESPONSE_FILTERS, StringUtils.join(FILTERS, ";"))
+        .put(PROPERTY_CONTAINER_REQUEST_FILTERS, Joiner.on(';').join(requestFilterClassNames))
+        .put(PROPERTY_CONTAINER_RESPONSE_FILTERS, Joiner.on(';').join(responseFilterClassNames))
             // The LoggingFilter will log the body by default, which breaks StreamingOutput
         .put("com.sun.jersey.config.feature.logging.DisableEntitylogging", "true");
 
