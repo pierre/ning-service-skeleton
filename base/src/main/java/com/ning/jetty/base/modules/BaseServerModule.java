@@ -19,7 +19,6 @@ package com.ning.jetty.base.modules;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Module;
-import com.google.inject.multibindings.Multibinder;
 import com.ning.arecibo.jmx.AreciboMonitoringModule;
 import com.ning.arecibo.metrics.guice.AreciboMetricsModule;
 import com.ning.jetty.core.modules.ServerModule;
@@ -65,7 +64,9 @@ public class BaseServerModule extends ServerModule
             // Though it would seem to make sense that filters should be applied to responses in reverse order, in fact the
             // response filters appear to wrap each other up before executing, with the result being that execution order
             // is the reverse of the declared order.
-        .put(PROPERTY_CONTAINER_RESPONSE_FILTERS, StringUtils.join(FILTERS, ";"));
+        .put(PROPERTY_CONTAINER_RESPONSE_FILTERS, StringUtils.join(FILTERS, ";"))
+            // The LoggingFilter will log the body by default, which breaks StreamingOutput
+        .put("com.sun.jersey.config.feature.logging.DisableEntitylogging", "true");
 
     // System properties
     private final Properties props;
