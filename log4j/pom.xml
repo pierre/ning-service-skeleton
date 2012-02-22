@@ -20,7 +20,7 @@
     <parent>
         <groupId>com.ning.jetty</groupId>
         <artifactId>ning-service-skeleton</artifactId>
-        <version>0.0.19-SNAPSHOT</version>
+        <version>0.0.19</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>ning-service-skeleton-log4j</artifactId>
