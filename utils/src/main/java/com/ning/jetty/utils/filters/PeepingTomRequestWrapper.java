@@ -106,8 +106,21 @@ public class PeepingTomRequestWrapper extends HttpServletRequestWrapper
     }
 
     @Override
-    public Map<String, String[]> getParameterMap() {
+    public Map<String, String[]> getParameterMap()
+    {
         return parameterMap;
+    }
+
+    @Override
+    public String getParameter(final String name)
+    {
+        final String[] strings = parameterMap.get(name);
+        if (strings.length == 0) {
+            return null;
+        }
+        else {
+            return strings[0];
+        }
     }
 
     public ByteArrayInputStream getUnderlyingStream()
