@@ -114,8 +114,12 @@ public class PeepingTomRequestWrapper extends HttpServletRequestWrapper
     @Override
     public String getParameter(final String name)
     {
+        if (parameterMap == null) {
+            return null;
+        }
+
         final String[] strings = parameterMap.get(name);
-        if (strings.length == 0) {
+        if (strings == null || strings.length == 0) {
             return null;
         }
         else {
