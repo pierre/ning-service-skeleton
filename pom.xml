@@ -18,7 +18,7 @@
     <parent>
         <groupId>com.ning</groupId>
         <artifactId>metrics.base-pom</artifactId>
-        <version>0.0.11</version>
+        <version>0.0.18</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ning.jetty</groupId>
