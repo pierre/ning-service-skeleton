@@ -52,4 +52,15 @@ public interface DaoConfig
     @Config("com.ning.core.dao.connectionTimeout")
     @Default("10s")
     TimeSpan getConnectionTimeout();
+
+    @Description("The time for a connection to remain unused before it is closed off")
+    @Config("com.ning.core.dao.idleMaxAge")
+    @Default("60m")
+    TimeSpan getIdleMaxAge();
+
+    @Description("Any connections older than this setting will be closed off whether it is idle or not. Connections " +
+        "currently in use will not be affected until they are returned to the pool.")
+    @Config("com.ning.core.dao.maxConnectionAge")
+    @Default("0m")
+    TimeSpan getMaxConnectionAge();
 }

@@ -54,6 +54,8 @@ public class DBIProvider implements Provider<DBI>
         dbConfig.setMinConnectionsPerPartition(config.getMinIdle());
         dbConfig.setMaxConnectionsPerPartition(config.getMaxActive());
         dbConfig.setConnectionTimeout(config.getConnectionTimeout().getPeriod(), config.getConnectionTimeout().getUnit());
+        dbConfig.setIdleMaxAge(config.getIdleMaxAge().getPeriod(), config.getIdleMaxAge().getUnit());
+        dbConfig.setMaxConnectionAge(config.getMaxConnectionAge().getPeriod(), config.getMaxConnectionAge().getUnit());
         dbConfig.setPartitionCount(1);
         dbConfig.setDefaultTransactionIsolation("READ_COMMITTED");
         dbConfig.setDisableJMX(false);
