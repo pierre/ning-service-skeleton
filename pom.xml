@@ -36,6 +36,7 @@
     <modules>
         <module>base</module>
         <module>core</module>
+        <module>jaxrs</module>
         <module>log4j</module>
         <module>utils</module>
     </modules>
