@@ -21,7 +21,6 @@ import com.ning.jetty.core.listeners.SetupJULBridge;
 import com.google.common.base.Preconditions;
 import com.google.common.io.Resources;
 import com.google.inject.servlet.GuiceFilter;
-import org.eclipse.jetty.http.ssl.SslContextFactory;
 import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
@@ -33,6 +32,7 @@ import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.log.Log;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.xml.XmlConfiguration;
 
 import javax.annotation.PostConstruct;

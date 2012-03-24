@@ -23,7 +23,7 @@ import com.ning.jersey.metrics.TimedResourceModule;
 import com.ning.jetty.core.CoreConfig;
 import com.yammer.metrics.core.HealthCheck;
 import com.yammer.metrics.guice.InstrumentationModule;
-import com.yammer.metrics.reporting.guice.MetricsServletModule;
+import com.yammer.metrics.guice.servlet.AdminServletModule;
 import org.codehaus.jackson.jaxrs.Annotations;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -105,7 +105,7 @@ public class ServerModule extends ServletModule
 
         // Healthchecks
         healthChecksBinder = Multibinder.newSetBinder(binder(), HealthCheck.class);
-        install(new MetricsServletModule("/1.0/healthcheck", "/1.0/metrics", "/1.0/ping", "/1.0/threads"));
+        install(new AdminServletModule("/1.0/healthcheck", "/1.0/metrics", "/1.0/ping", "/1.0/threads"));
 
         // Metrics/Jersey integration
         install(new TimedResourceModule());

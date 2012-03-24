@@ -25,13 +25,13 @@ import org.weakref.jmx.Managed;
 
 public class DBIHealthCheck extends HealthCheck
 {
-    @Inject
     private DBI dbi;
 
-    @Override
-    public String name()
+    @Inject
+    public DBIHealthCheck(final DBI dbi)
     {
-        return "DBIHealthCheck";
+        super("DBIHealthCheck");
+        this.dbi = dbi;
     }
 
     @Override
@@ -43,8 +43,7 @@ public class DBIHealthCheck extends HealthCheck
             final int test = handle.createQuery("select 1 as test").map(IntegerMapper.FIRST).first();
             if (test == 1) {
                 return Result.healthy();
-            }
-            else {
+            } else {
                 return Result.unhealthy(String.format("%s != 1", test));
             }
         }
