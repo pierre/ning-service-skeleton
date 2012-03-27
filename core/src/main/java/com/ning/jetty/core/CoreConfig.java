@@ -18,6 +18,7 @@ package com.ning.jetty.core;
 
 import org.skife.config.Config;
 import org.skife.config.Default;
+import org.skife.config.DefaultNull;
 
 public interface CoreConfig
 {
@@ -28,4 +29,36 @@ public interface CoreConfig
     @Config("com.ning.core.server.port")
     @Default("8080")
     int getServerPort();
+
+    @Config("com.ning.core.server.server.ssl.enabled")
+    @Default("false")
+    boolean isSSLEnabled();
+
+    @Config("com.ning.core.server.server.ssl.port")
+    @Default("8443")
+    int getServerSslPort();
+
+    @Config("com.ning.core.server.jetty.stats")
+    @Default("true")
+    boolean isJettyStatsOn();
+
+    @Config("com.ning.core.server.jetty.ssl.keystore")
+    @DefaultNull
+    String getSSLkeystoreLocation();
+
+    @Config("com.ning.core.server.jetty.ssl.keystore.password")
+    @DefaultNull
+    String getSSLkeystorePassword();
+
+    @Config("com.ning.core.server.jetty.maxThreads")
+    @Default("2000")
+    int getMaxThreads();
+
+    @Config("com.ning.core.server.jetty.minThreads")
+    @Default("2")
+    int getMinThreads();
+
+    @Config("com.ning.core.server.jetty.logPath")
+    @Default(".logs")
+    String getLogPath();
 }

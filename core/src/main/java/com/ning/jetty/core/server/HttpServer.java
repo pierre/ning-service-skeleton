@@ -16,16 +16,20 @@
 
 package com.ning.jetty.core.server;
 
+import com.ning.jetty.core.CoreConfig;
 import com.ning.jetty.core.listeners.SetupJULBridge;
 
 import com.google.common.base.Preconditions;
 import com.google.common.io.Resources;
 import com.google.inject.servlet.GuiceFilter;
 import org.eclipse.jetty.jmx.MBeanContainer;
-import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.NCSARequestLog;
+import org.eclipse.jetty.server.RequestLog;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.HandlerCollection;
+import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.server.handler.RequestLogHandler;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
-import org.eclipse.jetty.server.ssl.SslConnector;
 import org.eclipse.jetty.server.ssl.SslSelectChannelConnector;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.FilterHolder;
@@ -33,12 +37,14 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
+import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.xml.XmlConfiguration;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.management.MBeanServer;
 import javax.servlet.DispatcherType;
+import java.lang.management.ManagementFactory;
 import java.util.EnumSet;
 import java.util.EventListener;
 import java.util.Map;
@@ -50,9 +56,15 @@ public class HttpServer
 {
     private final Server server;
 
+    public HttpServer()
+    {
+        this.server = new Server();
+        server.setSendServerVersion(false);
+    }
+
     public HttpServer(final String jettyXml) throws Exception
     {
-        server = new Server();
+        this();
         configure(jettyXml);
     }
 
@@ -62,18 +74,88 @@ public class HttpServer
         configuration.configure(server);
     }
 
-    public void configure(final MBeanServer mbeanServer, final boolean isStatsOn, final String localIp, final int localPort,
-                          final Iterable<EventListener> eventListeners, final Map<FilterHolder, String> filterHolders)
+    public void configure(final CoreConfig config, final Iterable<EventListener> eventListeners, final Map<FilterHolder, String> filterHolders)
     {
         server.setStopAtShutdown(true);
 
         // Setup JMX
-        configureJMX(mbeanServer);
+        configureJMX(ManagementFactory.getPlatformMBeanServer());
 
         // Configure main connector
-        configureMainConnector(isStatsOn, localIp, localPort);
+        configureMainConnector(config.isJettyStatsOn(), config.getServerHost(), config.getServerPort());
 
-        final ServletContextHandler context = new ServletContextHandler(server, "/", ServletContextHandler.SESSIONS);
+        // Configure SSL, if enabled
+        if (config.isSSLEnabled()) {
+            configureSslConnector(config.isJettyStatsOn(), config.getServerSslPort(), config.getSSLkeystoreLocation(), config.getSSLkeystorePassword());
+        }
+
+        // Configure the thread pool
+        configureThreadPool(config);
+
+        // Configure handlers
+        final HandlerCollection handlers = new HandlerCollection();
+        final ServletContextHandler servletContextHandler = createServletContextHandler(eventListeners, filterHolders);
+        handlers.addHandler(servletContextHandler);
+        final RequestLogHandler logHandler = createLogHandler(config);
+        handlers.addHandler(logHandler);
+        final HandlerList rootHandlers = new HandlerList();
+        rootHandlers.addHandler(handlers);
+        server.setHandler(rootHandlers);
+    }
+
+    @PostConstruct
+    public void start() throws Exception
+    {
+        server.start();
+        Preconditions.checkState(server.isRunning(), "server is not running");
+    }
+
+    @PreDestroy
+    public void stop() throws Exception
+    {
+        server.stop();
+    }
+
+    private void configureJMX(final MBeanServer mbeanServer)
+    {
+        final MBeanContainer mbContainer = new MBeanContainer(mbeanServer);
+        mbContainer.addBean(Log.getLogger(HttpServer.class));
+        server.addBean(mbContainer);
+    }
+
+    private void configureMainConnector(final boolean isStatsOn, final String localIp, final int localPort)
+    {
+        final SelectChannelConnector connector = new SelectChannelConnector();
+        connector.setName("http");
+        connector.setStatsOn(isStatsOn);
+        connector.setHost(localIp);
+        connector.setPort(localPort);
+        server.addConnector(connector);
+    }
+
+    private void configureSslConnector(final boolean isStatsOn, final int localSslPort, final String sslKeyStorePath, final String sslKeyStorePassword)
+    {
+        final SslSelectChannelConnector sslConnector = new SslSelectChannelConnector();
+        sslConnector.setName("https");
+        sslConnector.setStatsOn(isStatsOn);
+        sslConnector.setPort(localSslPort);
+        final SslContextFactory sslContextFactory = sslConnector.getSslContextFactory();
+        sslContextFactory.setKeyStorePath(sslKeyStorePath);
+        sslContextFactory.setKeyStorePassword(sslKeyStorePassword);
+        server.addConnector(sslConnector);
+    }
+
+    private void configureThreadPool(final CoreConfig config)
+    {
+        final QueuedThreadPool threadPool = new QueuedThreadPool(config.getMaxThreads());
+        threadPool.setMinThreads(config.getMinThreads());
+        threadPool.setName("http-worker");
+        server.setThreadPool(threadPool);
+    }
+
+    private ServletContextHandler createServletContextHandler(final Iterable<EventListener> eventListeners, final Map<FilterHolder, String> filterHolders)
+    {
+        final ServletContextHandler context = new ServletContextHandler(server, "/", ServletContextHandler.NO_SESSIONS);
         context.setContextPath("/");
         // Required! See ContextHandler#getResource and http://docs.codehaus.org/display/JETTY/Embedding+Jetty
         final String webapp = this.getClass().getClassLoader().getResource("webapp").toExternalForm();
@@ -98,51 +180,17 @@ public class HttpServer
         // Backend servlet for Guice - never used
         final ServletHolder sh = new ServletHolder(DefaultServlet.class);
         context.addServlet(sh, "/*");
+
+        return context;
     }
 
-    public void enableSSL(final boolean isStatsOn, final int localSslPort, final String sslKeyStorePath, final String sslKeyStorePassword)
+    private RequestLogHandler createLogHandler(final CoreConfig config)
     {
-        configureSslConnector(isStatsOn, localSslPort, sslKeyStorePath, sslKeyStorePassword);
-    }
+        final RequestLogHandler logHandler = new RequestLogHandler();
 
-    @PostConstruct
-    public void start() throws Exception
-    {
-        server.start();
-        Preconditions.checkState(server.isRunning(), "server is not running");
-    }
+        final RequestLog requestLog = new NCSARequestLog(config.getLogPath());
+        logHandler.setRequestLog(requestLog);
 
-    @PreDestroy
-    public void stop() throws Exception
-    {
-        server.stop();
-    }
-
-    private void configureJMX(MBeanServer mbeanServer)
-    {
-        final MBeanContainer mbContainer = new MBeanContainer(mbeanServer);
-        server.getContainer().addEventListener(mbContainer);
-        server.addBean(mbContainer);
-        mbContainer.addBean(Log.getLogger(HttpServer.class));
-    }
-
-    private void configureMainConnector(boolean isStatsOn, String localIp, int localPort)
-    {
-        final Connector connector = new SelectChannelConnector();
-        connector.setStatsOn(isStatsOn);
-        connector.setHost(localIp);
-        connector.setPort(localPort);
-        server.addConnector(connector);
-    }
-
-    private void configureSslConnector(boolean isStatsOn, int localSslPort, String sslKeyStorePath, String sslKeyStorePassword)
-    {
-        final SslConnector sslConnector = new SslSelectChannelConnector();
-        sslConnector.setStatsOn(isStatsOn);
-        sslConnector.setPort(localSslPort);
-        SslContextFactory sslContextFactory = sslConnector.getSslContextFactory();
-        sslContextFactory.setKeyStorePath(sslKeyStorePath);
-        sslContextFactory.setKeyStorePassword(sslKeyStorePassword);
-        server.addConnector(sslConnector);
+        return logHandler;
     }
 }
