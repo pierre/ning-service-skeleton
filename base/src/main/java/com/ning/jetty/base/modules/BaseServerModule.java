@@ -16,10 +16,6 @@
 
 package com.ning.jetty.base.modules;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.inject.Module;
 import com.ning.arecibo.jmx.AreciboMonitoringModule;
 import com.ning.arecibo.metrics.guice.AreciboMetricsModule;
 import com.ning.jetty.core.modules.ServerModule;
@@ -33,6 +29,11 @@ import com.ning.jetty.utils.filters.Tracker;
 import com.ning.jetty.utils.filters.TrackerFilter;
 import com.ning.metrics.eventtracker.CollectorControllerHttpMBeanModule;
 import com.ning.metrics.eventtracker.CollectorControllerSmileModule;
+
+import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.inject.Module;
 import com.sun.jersey.api.container.filter.LoggingFilter;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 import com.yammer.metrics.core.HealthCheck;
@@ -44,6 +45,7 @@ import org.weakref.jmx.guice.MBeanModule;
 import javax.servlet.Filter;
 import javax.servlet.http.HttpServlet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -62,9 +64,9 @@ public class BaseServerModule extends ServerModule
      * @see com.google.inject.servlet.ServletModule#configureServlets()
      */
     private static final Iterable<String> requestFilterClassNames = ImmutableList.of(
-        // The logging filter is still incompatible with the GZIP filter
-        //GZIPContentEncodingFilter.class.getName(),
-        LoggingFilter.class.getName()
+            // The logging filter is still incompatible with the GZIP filter
+            //GZIPContentEncodingFilter.class.getName(),
+            LoggingFilter.class.getName()
     );
 
     /**
@@ -73,16 +75,18 @@ public class BaseServerModule extends ServerModule
      * the request.
      */
     private static final Iterable<String> responseFilterClassNames = ImmutableList.of(
-        LoggingFilter.class.getName()
-        //GZIPContentEncodingFilter.class.getName()
+            LoggingFilter.class.getName()
+            //GZIPContentEncodingFilter.class.getName()
     );
 
     private static final ImmutableMap.Builder<String, String> JERSEY_PARAMS = new ImmutableMap.Builder<String, String>()
-        .put(PROPERTY_CONTAINER_REQUEST_FILTERS, Joiner.on(';').join(requestFilterClassNames))
-        .put(PROPERTY_CONTAINER_RESPONSE_FILTERS, Joiner.on(';').join(responseFilterClassNames))
-            // The LoggingFilter will log the body by default, which breaks StreamingOutput
-        .put("com.sun.jersey.config.feature.logging.DisableEntitylogging", "true");
+            .put(PROPERTY_CONTAINER_REQUEST_FILTERS, Joiner.on(';').join(requestFilterClassNames))
+            .put(PROPERTY_CONTAINER_RESPONSE_FILTERS, Joiner.on(';').join(responseFilterClassNames))
+                    // The LoggingFilter will log the body by default, which breaks StreamingOutput
+            .put("com.sun.jersey.config.feature.logging.DisableEntitylogging", "true");
 
+    // Extra Guice bindings
+    private final Map<Class, Object> bindings = new HashMap<Class, Object>();
     // System properties
     private final Properties props;
     // config-magic classes
@@ -104,7 +108,8 @@ public class BaseServerModule extends ServerModule
     private Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filters;
     private Map<String, Class<? extends HttpServlet>> serves;
 
-    public BaseServerModule(final List<Class> configs,
+    public BaseServerModule(final Map<Class, Object> bindings,
+                            final List<Class> configs,
                             final List<Class<? extends HealthCheck>> healthchecks,
                             final List<Class> beans,
                             final String areciboProfile,
@@ -115,6 +120,7 @@ public class BaseServerModule extends ServerModule
                             final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filters,
                             final Map<String, Class<? extends HttpServlet>> serves)
     {
+        this.bindings.putAll(bindings);
         this.props = System.getProperties();
         this.configs.addAll(configs);
         this.healthchecks.addAll(healthchecks);
@@ -136,6 +142,9 @@ public class BaseServerModule extends ServerModule
     {
         super.configureServlets();
 
+        configureConfig();
+
+        installExtraBindings();
         installHealthChecks();
         installArecibo();
         installEventtracker();
@@ -143,6 +152,13 @@ public class BaseServerModule extends ServerModule
         installExtraModules();
 
         configureJersey();
+    }
+
+    private void installExtraBindings()
+    {
+        for (final Class clazz : bindings.keySet()) {
+            binder().bind(clazz).toInstance(bindings.get(clazz));
+        }
     }
 
     private void installEventtracker()
@@ -166,11 +182,8 @@ public class BaseServerModule extends ServerModule
         bind(Log4JMBean.class).asEagerSingleton();
     }
 
-    @Override
     protected void configureConfig()
     {
-        super.configureConfig();
-
         for (final Class configClass : configs) {
             bind(configClass).toInstance(new ConfigurationObjectFactory(props).build(configClass));
         }

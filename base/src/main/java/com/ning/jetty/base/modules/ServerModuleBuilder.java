@@ -16,9 +16,10 @@
 
 package com.ning.jetty.base.modules;
 
+import com.ning.jetty.core.modules.ServerModule;
+
 import com.google.common.collect.Maps;
 import com.google.inject.Module;
-import com.ning.jetty.core.modules.ServerModule;
 import com.yammer.metrics.core.HealthCheck;
 
 import javax.servlet.Filter;
@@ -30,6 +31,7 @@ import java.util.Map;
 
 public class ServerModuleBuilder
 {
+    private final Map<Class, Object> bindings = new HashMap<Class, Object>();
     private final List<Class> configs = new ArrayList<Class>();
     private final List<Class<? extends HealthCheck>> healthchecks = new ArrayList<Class<? extends HealthCheck>>();
     private final List<Class> beans = new ArrayList<Class>();
@@ -43,6 +45,12 @@ public class ServerModuleBuilder
 
     public ServerModuleBuilder()
     {
+    }
+
+    public ServerModuleBuilder addBindings(final Map<Class, Object> bindings)
+    {
+        this.bindings.putAll(bindings);
+        return this;
     }
 
     public ServerModuleBuilder addConfig(final Class config)
@@ -116,15 +124,18 @@ public class ServerModuleBuilder
 
     public ServerModule build()
     {
-        return new BaseServerModule(configs,
-            healthchecks,
-            beans,
-            areciboProfile,
-            trackRequests,
-            log4jEnabled,
-            resources,
-            modules,
-            filters,
-            serves);
+        return new BaseServerModule(
+                bindings,
+                configs,
+                healthchecks,
+                beans,
+                areciboProfile,
+                trackRequests,
+                log4jEnabled,
+                resources,
+                modules,
+                filters,
+                serves
+        );
     }
 }

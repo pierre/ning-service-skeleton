@@ -16,11 +16,12 @@
 
 package com.ning.jetty.core.modules;
 
+import com.ning.jersey.metrics.TimedResourceModule;
+import com.ning.jetty.core.CoreConfig;
+
 import com.google.inject.Provider;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.servlet.ServletModule;
-import com.ning.jersey.metrics.TimedResourceModule;
-import com.ning.jetty.core.CoreConfig;
 import com.yammer.metrics.core.HealthCheck;
 import com.yammer.metrics.guice.InstrumentationModule;
 import com.yammer.metrics.guice.servlet.AdminServletModule;
@@ -31,38 +32,20 @@ import org.codehaus.jackson.map.SerializationConfig;
 import org.skife.config.ConfigurationObjectFactory;
 import org.weakref.jmx.guice.MBeanModule;
 
+import javax.management.MBeanServer;
+import java.lang.management.ManagementFactory;
 import java.util.Properties;
 
 public class ServerModule extends ServletModule
 {
-    private final Properties props;
-
     protected Multibinder<HealthCheck> healthChecksBinder;
-
-    public ServerModule()
-    {
-        this(System.getProperties());
-    }
-
-    public ServerModule(final Properties props)
-    {
-        this.props = props;
-    }
 
     @Override
     public void configureServlets()
     {
-        configureConfig();
-
         installJackson();
         installJMX();
         installStats();
-    }
-
-    protected void configureConfig()
-    {
-        final CoreConfig coreConfig = new ConfigurationObjectFactory(props).build(CoreConfig.class);
-        bind(CoreConfig.class).toInstance(coreConfig);
     }
 
     protected void installJackson()
@@ -71,7 +54,7 @@ public class ServerModule extends ServletModule
 
         bind(ObjectMapper.class).toInstance(mapper);
         bind(JacksonJsonProvider.class)
-            .toInstance(new JacksonJsonProvider(mapper, new Annotations[]{Annotations.JACKSON, Annotations.JAXB}));
+                .toInstance(new JacksonJsonProvider(mapper, new Annotations[]{Annotations.JACKSON, Annotations.JAXB}));
     }
 
     /**
@@ -95,6 +78,9 @@ public class ServerModule extends ServletModule
 
     protected void installJMX()
     {
+        final MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
+        binder().bind(MBeanServer.class).toInstance(mBeanServer);
+
         install(new MBeanModule());
     }
 
