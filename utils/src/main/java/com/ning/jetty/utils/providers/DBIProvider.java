@@ -16,14 +16,15 @@
 
 package com.ning.jetty.utils.providers;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.jolbox.bonecp.BoneCPConfig;
-import com.jolbox.bonecp.BoneCPDataSource;
 import com.ning.jdbi.metrics.JdbiGroupStrategy;
 import com.ning.jdbi.metrics.MetricsTimingCollector;
 import com.ning.jdbi.metrics.SqlJdbiGroupStrategy;
 import com.ning.jetty.utils.DaoConfig;
+
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.jolbox.bonecp.BoneCPConfig;
+import com.jolbox.bonecp.BoneCPDataSource;
 import com.yammer.metrics.core.MetricsRegistry;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.TimingCollector;
@@ -56,6 +57,7 @@ public class DBIProvider implements Provider<DBI>
         dbConfig.setConnectionTimeout(config.getConnectionTimeout().getPeriod(), config.getConnectionTimeout().getUnit());
         dbConfig.setIdleMaxAge(config.getIdleMaxAge().getPeriod(), config.getIdleMaxAge().getUnit());
         dbConfig.setMaxConnectionAge(config.getMaxConnectionAge().getPeriod(), config.getMaxConnectionAge().getUnit());
+        dbConfig.setIdleConnectionTestPeriod(config.getIdleConnectionTestPeriod().getPeriod(), config.getIdleConnectionTestPeriod().getUnit());
         dbConfig.setPartitionCount(1);
         dbConfig.setDefaultTransactionIsolation("READ_COMMITTED");
         dbConfig.setDisableJMX(false);

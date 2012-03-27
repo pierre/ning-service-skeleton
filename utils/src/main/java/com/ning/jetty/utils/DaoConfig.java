@@ -59,8 +59,13 @@ public interface DaoConfig
     TimeSpan getIdleMaxAge();
 
     @Description("Any connections older than this setting will be closed off whether it is idle or not. Connections " +
-        "currently in use will not be affected until they are returned to the pool.")
+            "currently in use will not be affected until they are returned to the pool")
     @Config("com.ning.core.dao.maxConnectionAge")
     @Default("0m")
     TimeSpan getMaxConnectionAge();
+
+    @Description("Time for a connection to remain idle before sending a test query to the DB")
+    @Config("com.ning.core.dao.idleConnectionTestPeriod")
+    @Default("5m")
+    TimeSpan getIdleConnectionTestPeriod();
 }
