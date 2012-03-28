@@ -102,11 +102,12 @@ public class BaseServerModule extends ServerModule
     // Whether log4j is used
     private boolean log4jEnabled = false;
     // Jersey resources
-    final List<String> resources = new ArrayList<String>();
+    final String jerseyUriPattern;
+    final List<String> jerseyResources = new ArrayList<String>();
     // Extra Guice modules to install
     final List<Module> modules = new ArrayList<Module>();
-    private Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filters;
-    private Map<String, Class<? extends HttpServlet>> serves;
+    private final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filters;
+    private final Map<String, Class<? extends HttpServlet>> jerseyServlets;
 
     public BaseServerModule(final Map<Class, Object> bindings,
                             final List<Class> configs,
@@ -115,10 +116,11 @@ public class BaseServerModule extends ServerModule
                             final String areciboProfile,
                             final boolean trackRequests,
                             final boolean log4jEnabled,
-                            final List<String> resources,
+                            final String jerseyUriPattern,
+                            final List<String> jerseyResources,
                             final List<Module> modules,
                             final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filters,
-                            final Map<String, Class<? extends HttpServlet>> serves)
+                            final Map<String, Class<? extends HttpServlet>> jerseyServlets)
     {
         this.bindings.putAll(bindings);
         this.props = System.getProperties();
@@ -128,10 +130,11 @@ public class BaseServerModule extends ServerModule
         this.areciboProfile = areciboProfile;
         this.log4jEnabled = log4jEnabled;
         this.trackRequests = trackRequests;
-        this.resources.addAll(resources);
+        this.jerseyUriPattern = jerseyUriPattern;
+        this.jerseyResources.addAll(jerseyResources);
         this.modules.addAll(modules);
         this.filters = filters;
-        this.serves = serves;
+        this.jerseyServlets = jerseyServlets;
 
         this.configs.add(DaoConfig.class);
         this.configs.add(TrackerConfig.class);
@@ -151,6 +154,7 @@ public class BaseServerModule extends ServerModule
         installLog4j();
         installExtraModules();
 
+        configureFilters();
         configureJersey();
     }
 
@@ -234,22 +238,25 @@ public class BaseServerModule extends ServerModule
         }
     }
 
-    protected void configureJersey()
+    protected void configureFilters()
     {
         for (final String urlPattern : filters.keySet()) {
             for (final Map.Entry<Class<? extends Filter>, Map<String, String>> filter : filters.get(urlPattern)) {
                 filter(urlPattern).through(filter.getKey(), filter.getValue());
             }
         }
+    }
 
-        for (final String urlPattern : serves.keySet()) {
-            serve(urlPattern).with(serves.get(urlPattern), JERSEY_PARAMS.build());
+    protected void configureJersey()
+    {
+        for (final String urlPattern : jerseyServlets.keySet()) {
+            serveRegex(urlPattern).with(jerseyServlets.get(urlPattern), JERSEY_PARAMS.build());
         }
 
         // Catch-all resources
-        if (resources.size() != 0) {
-            JERSEY_PARAMS.put(PROPERTY_PACKAGES, StringUtils.join(resources, ";"));
-            filter("*").through(GuiceContainer.class, JERSEY_PARAMS.build());
+        if (jerseyResources.size() != 0) {
+            JERSEY_PARAMS.put(PROPERTY_PACKAGES, StringUtils.join(jerseyResources, ";"));
+            serveRegex(jerseyUriPattern).with(GuiceContainer.class, JERSEY_PARAMS.build());
         }
     }
 }

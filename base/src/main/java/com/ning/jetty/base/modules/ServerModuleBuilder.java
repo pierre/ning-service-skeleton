@@ -38,10 +38,11 @@ public class ServerModuleBuilder
     private String areciboProfile = null;
     private boolean trackRequests = false;
     private boolean log4jEnabled = false;
-    private final List<String> resources = new ArrayList<String>();
+    private String jerseyUriPattern = null;
+    private final List<String> jerseyResources = new ArrayList<String>();
     private final List<Module> modules = new ArrayList<Module>();
     private final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filters = new HashMap<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>>();
-    private final Map<String, Class<? extends HttpServlet>> serves = new HashMap<String, Class<? extends HttpServlet>>();
+    private final Map<String, Class<? extends HttpServlet>> jerseyServlets = new HashMap<String, Class<? extends HttpServlet>>();
 
     public ServerModuleBuilder()
     {
@@ -89,9 +90,15 @@ public class ServerModuleBuilder
         return this;
     }
 
-    public ServerModuleBuilder addResource(final String resource)
+    public ServerModuleBuilder setJerseyUriPattern(final String jerseyUriPattern)
     {
-        this.resources.add(resource);
+        this.jerseyUriPattern = jerseyUriPattern;
+        return this;
+    }
+
+    public ServerModuleBuilder addJerseyResource(final String resource)
+    {
+        this.jerseyResources.add(resource);
         return this;
     }
 
@@ -116,9 +123,9 @@ public class ServerModuleBuilder
         return this;
     }
 
-    public ServerModuleBuilder addServe(final String urlPattern, final Class<? extends HttpServlet> filterKey)
+    public ServerModuleBuilder addJerseyServlet(final String urlPattern, final Class<? extends HttpServlet> filterKey)
     {
-        this.serves.put(urlPattern, filterKey);
+        this.jerseyServlets.put(urlPattern, filterKey);
         return this;
     }
 
@@ -132,10 +139,11 @@ public class ServerModuleBuilder
                 areciboProfile,
                 trackRequests,
                 log4jEnabled,
-                resources,
+                jerseyUriPattern,
+                jerseyResources,
                 modules,
                 filters,
-                serves
+                jerseyServlets
         );
     }
 }
