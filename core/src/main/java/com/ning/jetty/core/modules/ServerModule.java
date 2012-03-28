@@ -17,24 +17,22 @@
 package com.ning.jetty.core.modules;
 
 import com.ning.jersey.metrics.TimedResourceModule;
-import com.ning.jetty.core.CoreConfig;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
+import com.fasterxml.jackson.jaxrs.json.Annotations;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.google.inject.Provider;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.servlet.ServletModule;
 import com.yammer.metrics.core.HealthCheck;
 import com.yammer.metrics.guice.InstrumentationModule;
 import com.yammer.metrics.guice.servlet.AdminServletModule;
-import org.codehaus.jackson.jaxrs.Annotations;
-import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig;
-import org.skife.config.ConfigurationObjectFactory;
 import org.weakref.jmx.guice.MBeanModule;
 
 import javax.management.MBeanServer;
 import java.lang.management.ManagementFactory;
-import java.util.Properties;
 
 public class ServerModule extends ServletModule
 {
@@ -70,7 +68,8 @@ public class ServerModule extends ServletModule
             public ObjectMapper get()
             {
                 final ObjectMapper mapper = new ObjectMapper();
-                mapper.disable(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS);
+                mapper.registerModule(new JodaModule());
+                mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
                 return mapper;
             }
         };

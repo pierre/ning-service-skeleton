@@ -16,9 +16,9 @@
 
 package com.ning.jetty.core.modules;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.testng.Assert;
@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
 
 import java.util.Map;
 
-@Guice(modules = TestServerModule.class)
+@Guice(modules = ServerModule.class)
 public class TestInjection
 {
     @Inject
