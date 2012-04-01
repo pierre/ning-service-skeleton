@@ -14,18 +14,17 @@
  * under the License.
  */
 
-package com.ning.jetty.utils.providers;
+package com.ning.jetty.jdbi.guice.providers;
 
-import com.ning.jdbi.metrics.JdbiGroupStrategy;
-import com.ning.jdbi.metrics.MetricsTimingCollector;
-import com.ning.jdbi.metrics.SqlJdbiGroupStrategy;
-import com.ning.jetty.utils.DaoConfig;
+import com.ning.jetty.jdbi.config.DaoConfig;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.jolbox.bonecp.BoneCPConfig;
 import com.jolbox.bonecp.BoneCPDataSource;
 import com.yammer.metrics.core.MetricsRegistry;
+import com.yammer.metrics.jdbi.InstrumentedTimingCollector;
+import com.yammer.metrics.jdbi.strategies.BasicSqlNameStrategy;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.TimingCollector;
 import org.skife.jdbi.v2.logging.Log4JLog;
@@ -67,8 +66,8 @@ public class DBIProvider implements Provider<DBI>
         final SQLLog log = new Log4JLog();
         dbi.setSQLLog(log);
 
-        final JdbiGroupStrategy jdbiGroupStrategy = new SqlJdbiGroupStrategy();
-        final TimingCollector timingCollector = new MetricsTimingCollector(metricsRegistry, jdbiGroupStrategy, TimeUnit.MILLISECONDS, TimeUnit.SECONDS);
+        final BasicSqlNameStrategy basicSqlNameStrategy = new BasicSqlNameStrategy();
+        final TimingCollector timingCollector = new InstrumentedTimingCollector(metricsRegistry, basicSqlNameStrategy, TimeUnit.MILLISECONDS, TimeUnit.SECONDS);
         dbi.setTimingCollector(timingCollector);
 
         return dbi;

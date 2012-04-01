@@ -14,11 +14,12 @@
  * under the License.
  */
 
-package com.ning.jetty.utils.arecibo;
+package com.ning.jetty.jdbi.arecibo;
 
-import com.google.inject.Inject;
 import com.ning.arecibo.jmx.AreciboProfile;
 import com.ning.arecibo.jmx.MBeanRegistrar;
+
+import com.google.inject.Inject;
 
 /**
  * Exposes BoneCP stats to Arecibo. To use it:
@@ -31,19 +32,19 @@ public class BoneCPAreciboConnector
     public BoneCPAreciboConnector(final AreciboProfile profile)
     {
         new MBeanRegistrar("com.jolbox.bonecp:type=BoneCP")
-            .addValue("CacheHitRatio")
-            .addCounter("CacheHits")
-            .addCounter("CacheMiss")
-            .addValue("ConnectionWaitTimeAvg")
-            .addCounter("ConnectionsRequested")
-            .addValue("StatementExecuteTimeAvg")
-            .addValue("StatementPrepareTimeAvg")
-            .addCounter("StatementsCached")
-            .addCounter("StatementsExecuted")
-            .addCounter("StatementsPrepared")
-            .addValue("TotalCreatedConnections")
-            .addValue("TotalFree")
-            .addValue("TotalLeased")
-            .register(profile);
+                .addValue("CacheHitRatio")
+                .addCounter("CacheHits")
+                .addCounter("CacheMiss")
+                .addValue("ConnectionWaitTimeAvg")
+                .addCounter("ConnectionsRequested")
+                .addValue("StatementExecuteTimeAvg")
+                .addValue("StatementPrepareTimeAvg")
+                .addCounter("StatementsCached")
+                .addCounter("StatementsExecuted")
+                .addCounter("StatementsPrepared")
+                .addValue("TotalCreatedConnections")
+                .addValue("TotalFree")
+                .addValue("TotalLeased")
+                .register(profile);
     }
 }

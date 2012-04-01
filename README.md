@@ -73,4 +73,4 @@ Misc.
 
 2.  Available providers
 
-   You can use `com.ning.jetty.utils.providers.DBIProvider` to create DBI objects for your dao. This provider will setup metrics and BoneCP for you.
+   You can use `com.ning.jetty.jdbi.guice.providers.DBIProvider` to create DBI objects for your dao. This provider will setup metrics and BoneCP for you.

@@ -37,6 +37,7 @@
         <module>base</module>
         <module>core</module>
         <module>jaxrs</module>
+        <module>jdbi</module>
         <module>log4j</module>
         <module>utils</module>
     </modules>
@@ -50,6 +51,16 @@
             <dependency>
                 <groupId>com.ning.jetty</groupId>
                 <artifactId>ning-service-skeleton-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ning.jetty</groupId>
+                <artifactId>ning-service-skeleton-jaxrs</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ning.jetty</groupId>
+                <artifactId>ning-service-skeleton-jdbi</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
