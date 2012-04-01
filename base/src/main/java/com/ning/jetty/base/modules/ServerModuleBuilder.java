@@ -38,7 +38,8 @@ public class ServerModuleBuilder
     private String areciboProfile = null;
     private boolean trackRequests = false;
     private boolean log4jEnabled = false;
-    private String jerseyUriPattern = null;
+    // By default, proxy all requests to the Guice/Jersey servlet
+    private String jerseyUriPattern = "/.*";
     private final List<String> jerseyResources = new ArrayList<String>();
     private final List<Module> modules = new ArrayList<Module>();
     private final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filters = new HashMap<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>>();
