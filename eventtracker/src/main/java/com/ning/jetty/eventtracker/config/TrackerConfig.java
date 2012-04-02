@@ -14,22 +14,21 @@
  * under the License.
  */
 
-package com.ning.jetty.utils;
+package com.ning.jetty.eventtracker.config;
 
 import org.skife.config.Config;
 import org.skife.config.Default;
 import org.skife.config.Description;
-import org.skife.config.TimeSpan;
 
 public interface TrackerConfig
 {
     @Description("Reported hostname")
-    @Config("com.ning.core.tracker.host")
+    @Config("com.ning.jetty.eventtracker.host")
     @Default("localhost")
     String getServerHost();
 
     @Description("Reported port")
-    @Config("com.ning.core.tracker.port")
+    @Config("com.ning.jetty.eventtracker.port")
     @Default("8080")
     int getServerPort();
 }

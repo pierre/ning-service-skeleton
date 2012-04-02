@@ -22,13 +22,13 @@ Filters
     these classes in your filters to look into the request and/or response streams and various attributes
     (e.g. response code or headers).
 
-    See `com.ning.jetty.utils.filters.TrackerFilter` for an example on how to use them.
+    See `com.ning.jetty.eventtracker.filters.TrackerFilter` for an example on how to use them.
 
 2.  TrackerFilter
 
     You can use the provided `TrackerFilter` to send request logs to your log aggregating system. A default implementation is provided
     for the [collector](https://github.com/pierre/pierre) via the [eventtracker](https://github.com/pierre/eventtracker) library.
-    See `com.ning.jetty.utils.filters.CollectorTracker`.
+    See `com.ning.jetty.eventtracker.CollectorTracker`.
 
     In addition to the eventtracker system properties, you can set the name of the event via `com.ning.core.eventtracker.requestLogEventName`
     (`RequestLogEvent` by default).

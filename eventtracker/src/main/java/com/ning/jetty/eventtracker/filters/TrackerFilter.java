@@ -14,11 +14,15 @@
  * under the License.
  */
 
-package com.ning.jetty.utils.filters;
+package com.ning.jetty.eventtracker.filters;
+
+import com.ning.jetty.eventtracker.RequestLog;
+import com.ning.jetty.eventtracker.Tracker;
+import com.ning.jetty.eventtracker.config.TrackerConfig;
+import com.ning.jetty.utils.filters.PeepingTomResponseWrapper;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.ning.jetty.utils.TrackerConfig;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
@@ -94,8 +98,7 @@ public class TrackerFilter implements Filter
         final int timeToFirstByte;
         if (timeOfFirstByte == null) {
             timeToFirstByte = 0;
-        }
-        else {
+        } else {
             timeToFirstByte = (int) (timeOfFirstByte - startMillis);
         }
 
@@ -112,22 +115,22 @@ public class TrackerFilter implements Filter
         }
 
         final RequestLog event = new RequestLog(
-            startMillis,
-            request.getMethod(),
-            request.getScheme(),
-            request.getHeader("Host"),
-            path,
-            request.getHeader("Referer"),
-            request.getHeader("User-Agent"),
-            request.getRemoteAddr(),
-            xffChain,
-            response.getContentType(),
-            (short) response.getStatus(),
-            response.getUnderlyingStream() == null ? 0 : response.getUnderlyingStream().size(),
-            (int) elapsed,
-            timeToFirstByte,
-            config.getServerHost(),
-            config.getServerPort()
+                startMillis,
+                request.getMethod(),
+                request.getScheme(),
+                request.getHeader("Host"),
+                path,
+                request.getHeader("Referer"),
+                request.getHeader("User-Agent"),
+                request.getRemoteAddr(),
+                xffChain,
+                response.getContentType(),
+                (short) response.getStatus(),
+                response.getUnderlyingStream() == null ? 0 : response.getUnderlyingStream().size(),
+                (int) elapsed,
+                timeToFirstByte,
+                config.getServerHost(),
+                config.getServerPort()
         );
 
         tracker.trackRequest(event);

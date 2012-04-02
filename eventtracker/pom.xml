@@ -15,7 +15,8 @@
   ~ under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.ning.jetty</groupId>
@@ -23,38 +24,39 @@
         <version>0.1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>ning-service-skeleton-utils</artifactId>
-    <name>ning-service-skeleton-utils</name>
+    <artifactId>ning-service-skeleton-eventtracker</artifactId>
+    <name>ning-service-skeleton-eventtracker</name>
     <packaging>jar</packaging>
     <dependencies>
-        <dependency><!-- Force project version (override BoneCP's) -->
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.mogwee</groupId>
-            <artifactId>mogwee-executors</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.ning</groupId>
-            <artifactId>async-http-client</artifactId>
-            <optional>true</optional>
+            <artifactId>metrics.eventtracker-smile</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ning.arecibo</groupId>
-            <artifactId>arecibo-jmx</artifactId>
-            <optional>true</optional>
+            <groupId>com.ning.jetty</groupId>
+            <artifactId>ning-service-skeleton-utils</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.skife.config</groupId>
+            <artifactId>config-magic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
     </dependencies>
 </project>

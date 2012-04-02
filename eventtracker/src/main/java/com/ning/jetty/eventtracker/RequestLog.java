@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package com.ning.jetty.utils.filters;
+package com.ning.jetty.eventtracker;
 
 import com.ning.metrics.eventtracker.smile.org.codehaus.jackson.annotate.JsonAutoDetect;
 
@@ -39,22 +39,22 @@ public class RequestLog
     protected int corePort;
 
     public RequestLog(
-        final long eventDate,
-        final String method,
-        final String protocol,
-        final String host,
-        final String path,
-        final String referer,
-        final String userAgent,
-        final String proximateIp,
-        final String forwardedForChain,
-        final String contentType,
-        final short responseCode,
-        final int responseLength,
-        final int responseTime,
-        final int timeToFirstByte,
-        final String coreHost,
-        final int corePort
+            final long eventDate,
+            final String method,
+            final String protocol,
+            final String host,
+            final String path,
+            final String referer,
+            final String userAgent,
+            final String proximateIp,
+            final String forwardedForChain,
+            final String contentType,
+            final short responseCode,
+            final int responseLength,
+            final int responseTime,
+            final int timeToFirstByte,
+            final String coreHost,
+            final int corePort
     )
     {
         this.eventDate = eventDate;

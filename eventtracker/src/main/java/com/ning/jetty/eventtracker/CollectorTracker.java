@@ -14,13 +14,15 @@
  * under the License.
  */
 
-package com.ning.jetty.utils.filters;
+package com.ning.jetty.eventtracker;
+
+import com.ning.metrics.eventtracker.CollectorController;
+import com.ning.metrics.eventtracker.smile.com.ning.metrics.serialization.event.Granularity;
+import com.ning.metrics.eventtracker.smile.com.ning.metrics.serialization.event.SmileEnvelopeEvent;
+import com.ning.metrics.eventtracker.smile.org.joda.time.DateTime;
+import com.ning.metrics.eventtracker.smile.org.joda.time.DateTimeZone;
 
 import com.google.inject.Inject;
-import com.ning.metrics.eventtracker.CollectorController;
-import com.ning.metrics.eventtracker.smile.com.ning.metrics.serialization.event.SmileEnvelopeEvent;
-import com.ning.metrics.eventtracker.smile.org.codehaus.jackson.JsonNode;
-import com.ning.metrics.eventtracker.smile.org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,12 +37,10 @@ import java.io.IOException;
  */
 public class CollectorTracker implements Tracker
 {
-    // Make sure to use the eventtracker mapper
-    private static final ObjectMapper mapper = new ObjectMapper();
-
     private final Logger log = LoggerFactory.getLogger(CollectorTracker.class);
-    private final CollectorController controller;
     private final String eventName = System.getProperty("com.ning.core.eventtracker.requestLogEventName", "RequestLogEvent");
+
+    private final CollectorController controller;
 
     @Inject
     public CollectorTracker(final CollectorController controller)
@@ -51,9 +51,8 @@ public class CollectorTracker implements Tracker
     @Override
     public void trackRequest(final RequestLog request)
     {
-        final JsonNode root = mapper.valueToTree(request);
         try {
-            controller.offerEvent(new SmileEnvelopeEvent(eventName, root));
+            controller.offerEvent(SmileEnvelopeEvent.fromPOJO(eventName, Granularity.HOURLY, new DateTime(DateTimeZone.UTC), request));
         }
         catch (IOException e) {
             log.warn("Got I/O exception trying to send RequestLog [{}]: {}", request, e.toString());

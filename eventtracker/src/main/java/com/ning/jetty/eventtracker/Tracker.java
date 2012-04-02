@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package com.ning.jetty.utils.filters;
+package com.ning.jetty.eventtracker;
 
 public interface Tracker
 {
