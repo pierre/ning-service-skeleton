@@ -19,14 +19,14 @@ package com.ning.jetty.base.modules;
 import com.ning.arecibo.jmx.AreciboMonitoringModule;
 import com.ning.arecibo.metrics.guice.AreciboMetricsModule;
 import com.ning.jetty.core.modules.ServerModule;
+import com.ning.jetty.eventtracker.CollectorTracker;
+import com.ning.jetty.eventtracker.Tracker;
+import com.ning.jetty.eventtracker.config.TrackerConfig;
+import com.ning.jetty.eventtracker.filters.TrackerFilter;
 import com.ning.jetty.jdbi.config.DaoConfig;
 import com.ning.jetty.log4j.Log4JMBean;
-import com.ning.jetty.utils.TrackerConfig;
 import com.ning.jetty.utils.arecibo.Jetty7AreciboConnector;
 import com.ning.jetty.utils.arecibo.Log4JMBeanAreciboConnector;
-import com.ning.jetty.utils.filters.CollectorTracker;
-import com.ning.jetty.utils.filters.Tracker;
-import com.ning.jetty.utils.filters.TrackerFilter;
 import com.ning.metrics.eventtracker.CollectorControllerHttpMBeanModule;
 import com.ning.metrics.eventtracker.CollectorControllerSmileModule;
 

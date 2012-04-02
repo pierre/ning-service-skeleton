@@ -66,6 +66,10 @@
         </dependency>
         <dependency>
             <groupId>com.ning.jetty</groupId>
+            <artifactId>ning-service-skeleton-eventtracker</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ning.jetty</groupId>
             <artifactId>ning-service-skeleton-jdbi</artifactId>
         </dependency>
         <dependency>
