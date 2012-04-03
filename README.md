@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/pierre/ning-service-skeleton.png?branch=master)](http://travis-ci.org/pierre/ning-service-skeleton)
+
 To see an example of an application using this skeleton, see how the maven-jetty-plugin is configured (relevant files under [src/test/](https://github.com/pierre/ning-service-skeleton/tree/master/core/src/test)).
 
 Guice
