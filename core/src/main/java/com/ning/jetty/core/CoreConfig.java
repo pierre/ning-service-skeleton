@@ -61,4 +61,8 @@ public interface CoreConfig
     @Config("com.ning.core.server.jetty.logPath")
     @Default(".logs")
     String getLogPath();
+
+    @Config("com.ning.core.server.jetty.resourceBase")
+    @DefaultNull
+    String getResourceBase();
 }

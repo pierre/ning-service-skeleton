@@ -94,7 +94,7 @@ public class HttpServer
 
         // Configure handlers
         final HandlerCollection handlers = new HandlerCollection();
-        final ServletContextHandler servletContextHandler = createServletContextHandler(eventListeners, filterHolders);
+        final ServletContextHandler servletContextHandler = createServletContextHandler(config.getResourceBase(), eventListeners, filterHolders);
         handlers.addHandler(servletContextHandler);
         final RequestLogHandler logHandler = createLogHandler(config);
         handlers.addHandler(logHandler);
@@ -153,13 +153,16 @@ public class HttpServer
         server.setThreadPool(threadPool);
     }
 
-    private ServletContextHandler createServletContextHandler(final Iterable<EventListener> eventListeners, final Map<FilterHolder, String> filterHolders)
+    private ServletContextHandler createServletContextHandler(final String resourceBase, final Iterable<EventListener> eventListeners, final Map<FilterHolder, String> filterHolders)
     {
         final ServletContextHandler context = new ServletContextHandler(server, "/", ServletContextHandler.NO_SESSIONS);
         context.setContextPath("/");
-        // Required! See ContextHandler#getResource and http://docs.codehaus.org/display/JETTY/Embedding+Jetty
-        final String webapp = this.getClass().getClassLoader().getResource("webapp").toExternalForm();
-        context.setResourceBase(webapp);
+
+        if (resourceBase != null) {
+            // Required if you want a webapp directory. See ContextHandler#getResource and http://docs.codehaus.org/display/JETTY/Embedding+Jetty
+            final String webapp = this.getClass().getClassLoader().getResource(resourceBase).toExternalForm();
+            context.setResourceBase(webapp);
+        }
 
         // Jersey insists on using java.util.logging (JUL)
         final EventListener listener = new SetupJULBridge();
