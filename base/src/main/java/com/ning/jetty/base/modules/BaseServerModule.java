@@ -108,6 +108,7 @@ public class BaseServerModule extends ServerModule
     final List<Module> modules = new ArrayList<Module>();
     private final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filters;
     private final Map<String, Class<? extends HttpServlet>> jerseyServlets;
+    private final Map<String, Class<? extends HttpServlet>> servlets;
 
     public BaseServerModule(final Map<Class, Object> bindings,
                             final List<Class> configs,
@@ -120,7 +121,8 @@ public class BaseServerModule extends ServerModule
                             final List<String> jerseyResources,
                             final List<Module> modules,
                             final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filters,
-                            final Map<String, Class<? extends HttpServlet>> jerseyServlets)
+                            final Map<String, Class<? extends HttpServlet>> jerseyServlets,
+                            final Map<String, Class<? extends HttpServlet>> servlets)
     {
         this.bindings.putAll(bindings);
         this.props = System.getProperties();
@@ -135,6 +137,7 @@ public class BaseServerModule extends ServerModule
         this.modules.addAll(modules);
         this.filters = filters;
         this.jerseyServlets = jerseyServlets;
+        this.servlets = servlets;
 
         this.configs.add(DaoConfig.class);
         this.configs.add(TrackerConfig.class);
@@ -155,6 +158,7 @@ public class BaseServerModule extends ServerModule
         installExtraModules();
 
         configureFilters();
+        configureRegularServlets();
         configureJersey();
     }
 
@@ -244,6 +248,13 @@ public class BaseServerModule extends ServerModule
             for (final Map.Entry<Class<? extends Filter>, Map<String, String>> filter : filters.get(urlPattern)) {
                 filter(urlPattern).through(filter.getKey(), filter.getValue());
             }
+        }
+    }
+
+    protected void configureRegularServlets()
+    {
+        for (final String urlPattern : servlets.keySet()) {
+            serveRegex(urlPattern).with(servlets.get(urlPattern));
         }
     }
 

@@ -44,6 +44,7 @@ public class ServerModuleBuilder
     private final List<Module> modules = new ArrayList<Module>();
     private final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filters = new HashMap<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>>();
     private final Map<String, Class<? extends HttpServlet>> jerseyServlets = new HashMap<String, Class<? extends HttpServlet>>();
+    private final Map<String, Class<? extends HttpServlet>> servlets = new HashMap<String, Class<? extends HttpServlet>>();
 
     public ServerModuleBuilder()
     {
@@ -124,6 +125,12 @@ public class ServerModuleBuilder
         return this;
     }
 
+    public ServerModuleBuilder addServlet(final String urlPattern, final Class<? extends HttpServlet> filterKey)
+    {
+        this.servlets.put(urlPattern, filterKey);
+        return this;
+    }
+
     public ServerModuleBuilder addJerseyServlet(final String urlPattern, final Class<? extends HttpServlet> filterKey)
     {
         this.jerseyServlets.put(urlPattern, filterKey);
@@ -144,7 +151,8 @@ public class ServerModuleBuilder
                 jerseyResources,
                 modules,
                 filters,
-                jerseyServlets
+                jerseyServlets,
+                servlets
         );
     }
 }
