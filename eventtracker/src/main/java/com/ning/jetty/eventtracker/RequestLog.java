@@ -16,7 +16,7 @@
 
 package com.ning.jetty.eventtracker;
 
-import com.ning.metrics.eventtracker.smile.org.codehaus.jackson.annotate.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PROTECTED_AND_PUBLIC)
 public class RequestLog

@@ -17,12 +17,12 @@
 package com.ning.jetty.eventtracker;
 
 import com.ning.metrics.eventtracker.CollectorController;
-import com.ning.metrics.eventtracker.smile.com.ning.metrics.serialization.event.Granularity;
-import com.ning.metrics.eventtracker.smile.com.ning.metrics.serialization.event.SmileEnvelopeEvent;
-import com.ning.metrics.eventtracker.smile.org.joda.time.DateTime;
-import com.ning.metrics.eventtracker.smile.org.joda.time.DateTimeZone;
+import com.ning.metrics.serialization.event.Granularity;
+import com.ning.metrics.serialization.event.SmileEnvelopeEvent;
 
 import com.google.inject.Inject;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
