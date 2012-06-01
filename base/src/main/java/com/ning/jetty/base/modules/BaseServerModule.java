@@ -79,7 +79,7 @@ public class BaseServerModule extends ServerModule
             //GZIPContentEncodingFilter.class.getName()
     );
 
-    private static final ImmutableMap.Builder<String, String> JERSEY_PARAMS = new ImmutableMap.Builder<String, String>()
+    private final ImmutableMap.Builder<String, String> JERSEY_PARAMS = new ImmutableMap.Builder<String, String>()
             .put(PROPERTY_CONTAINER_REQUEST_FILTERS, Joiner.on(';').join(requestFilterClassNames))
             .put(PROPERTY_CONTAINER_RESPONSE_FILTERS, Joiner.on(';').join(responseFilterClassNames))
                     // The LoggingFilter will log the body by default, which breaks StreamingOutput
