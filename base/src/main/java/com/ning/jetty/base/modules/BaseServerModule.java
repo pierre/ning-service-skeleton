@@ -107,8 +107,11 @@ public class BaseServerModule extends ServerModule
     // Extra Guice modules to install
     final List<Module> modules = new ArrayList<Module>();
     private final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filters;
+    private final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filtersRegex;
     private final Map<String, Class<? extends HttpServlet>> jerseyServlets;
+    private final Map<String, Class<? extends HttpServlet>> jerseyServletsRegex;
     private final Map<String, Class<? extends HttpServlet>> servlets;
+    private final Map<String, Class<? extends HttpServlet>> servletsRegex;
 
     public BaseServerModule(final Map<Class, Object> bindings,
                             final List<Class> configs,
@@ -121,8 +124,11 @@ public class BaseServerModule extends ServerModule
                             final List<String> jerseyResources,
                             final List<Module> modules,
                             final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filters,
+                            final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filtersRegex,
                             final Map<String, Class<? extends HttpServlet>> jerseyServlets,
-                            final Map<String, Class<? extends HttpServlet>> servlets)
+                            final Map<String, Class<? extends HttpServlet>> jerseyServletsRegex,
+                            final Map<String, Class<? extends HttpServlet>> servlets,
+                            final Map<String, Class<? extends HttpServlet>> servletsRegex)
     {
         this.bindings.putAll(bindings);
         this.props = System.getProperties();
@@ -136,8 +142,11 @@ public class BaseServerModule extends ServerModule
         this.jerseyResources.addAll(jerseyResources);
         this.modules.addAll(modules);
         this.filters = filters;
+        this.filtersRegex = filtersRegex;
         this.jerseyServlets = jerseyServlets;
+        this.jerseyServletsRegex = jerseyServletsRegex;
         this.servlets = servlets;
+        this.servletsRegex = servletsRegex;
 
         this.configs.add(DaoConfig.class);
         this.configs.add(TrackerConfig.class);
@@ -158,7 +167,9 @@ public class BaseServerModule extends ServerModule
         installExtraModules();
 
         configureFilters();
+        configureFiltersRegex();
         configureRegularServlets();
+        configureRegularServletsRegex();
         configureJersey();
     }
 
@@ -251,17 +262,37 @@ public class BaseServerModule extends ServerModule
         }
     }
 
+    protected void configureFiltersRegex()
+    {
+        for (final String urlPattern : filtersRegex.keySet()) {
+            for (final Map.Entry<Class<? extends Filter>, Map<String, String>> filter : filtersRegex.get(urlPattern)) {
+                filterRegex(urlPattern).through(filter.getKey(), filter.getValue());
+            }
+        }
+    }
+
     protected void configureRegularServlets()
     {
         for (final String urlPattern : servlets.keySet()) {
-            serveRegex(urlPattern).with(servlets.get(urlPattern));
+            serve(urlPattern).with(servlets.get(urlPattern));
+        }
+    }
+
+    protected void configureRegularServletsRegex()
+    {
+        for (final String urlPattern : servletsRegex.keySet()) {
+            serveRegex(urlPattern).with(servletsRegex.get(urlPattern));
         }
     }
 
     protected void configureJersey()
     {
         for (final String urlPattern : jerseyServlets.keySet()) {
-            serveRegex(urlPattern).with(jerseyServlets.get(urlPattern), JERSEY_PARAMS.build());
+            serve(urlPattern).with(jerseyServlets.get(urlPattern), JERSEY_PARAMS.build());
+        }
+
+        for (final String urlPattern : jerseyServletsRegex.keySet()) {
+            serveRegex(urlPattern).with(jerseyServletsRegex.get(urlPattern), JERSEY_PARAMS.build());
         }
 
         // Catch-all resources

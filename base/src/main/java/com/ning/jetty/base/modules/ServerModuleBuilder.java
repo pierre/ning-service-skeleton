@@ -43,8 +43,11 @@ public class ServerModuleBuilder
     private final List<String> jerseyResources = new ArrayList<String>();
     private final List<Module> modules = new ArrayList<Module>();
     private final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filters = new HashMap<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>>();
+    private final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filtersRegex = new HashMap<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>>();
     private final Map<String, Class<? extends HttpServlet>> jerseyServlets = new HashMap<String, Class<? extends HttpServlet>>();
+    private final Map<String, Class<? extends HttpServlet>> jerseyServletsRegex = new HashMap<String, Class<? extends HttpServlet>>();
     private final Map<String, Class<? extends HttpServlet>> servlets = new HashMap<String, Class<? extends HttpServlet>>();
+    private final Map<String, Class<? extends HttpServlet>> servletsRegex = new HashMap<String, Class<? extends HttpServlet>>();
 
     public ServerModuleBuilder()
     {
@@ -92,12 +95,25 @@ public class ServerModuleBuilder
         return this;
     }
 
+    /**
+     * Specify the Uri pattern to use for the Guice/Jersey servlet
+     *
+     * @param jerseyUriPattern Any Java-style regular expression
+     * @return the current module builder
+     * @see ServerModuleBuilder#addJerseyResource(String)
+     */
     public ServerModuleBuilder setJerseyUriPattern(final String jerseyUriPattern)
     {
         this.jerseyUriPattern = jerseyUriPattern;
         return this;
     }
 
+    /**
+     * Add a package to be scanned for the Guice/Jersey servlet
+     *
+     * @param resource package to scan
+     * @return the current module builder
+     */
     public ServerModuleBuilder addJerseyResource(final String resource)
     {
         this.jerseyResources.add(resource);
@@ -125,15 +141,42 @@ public class ServerModuleBuilder
         return this;
     }
 
+    public ServerModuleBuilder addFilterRegex(final String urlPattern, final Class<? extends Filter> filterKey)
+    {
+        return addFilterRegex(urlPattern, filterKey, new HashMap<String, String>());
+    }
+
+    public ServerModuleBuilder addFilterRegex(final String urlPattern, final Class<? extends Filter> filterKey, final Map<String, String> initParams)
+    {
+        if (this.filtersRegex.get(urlPattern) == null) {
+            this.filtersRegex.put(urlPattern, new ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>());
+        }
+
+        this.filtersRegex.get(urlPattern).add(Maps.<Class<? extends Filter>, Map<String, String>>immutableEntry(filterKey, initParams));
+        return this;
+    }
+
     public ServerModuleBuilder addServlet(final String urlPattern, final Class<? extends HttpServlet> filterKey)
     {
         this.servlets.put(urlPattern, filterKey);
         return this;
     }
 
+    public ServerModuleBuilder addServletRegex(final String urlPattern, final Class<? extends HttpServlet> filterKey)
+    {
+        this.servletsRegex.put(urlPattern, filterKey);
+        return this;
+    }
+
     public ServerModuleBuilder addJerseyServlet(final String urlPattern, final Class<? extends HttpServlet> filterKey)
     {
         this.jerseyServlets.put(urlPattern, filterKey);
+        return this;
+    }
+
+    public ServerModuleBuilder addJerseyServletRegex(final String urlPattern, final Class<? extends HttpServlet> filterKey)
+    {
+        this.jerseyServletsRegex.put(urlPattern, filterKey);
         return this;
     }
 
@@ -151,8 +194,11 @@ public class ServerModuleBuilder
                 jerseyResources,
                 modules,
                 filters,
+                filtersRegex,
                 jerseyServlets,
-                servlets
+                jerseyServletsRegex,
+                servlets,
+                servletsRegex
         );
     }
 }
