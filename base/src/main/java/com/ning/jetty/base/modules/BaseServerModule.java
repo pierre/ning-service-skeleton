@@ -38,6 +38,7 @@ import com.sun.jersey.api.container.filter.LoggingFilter;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 import com.yammer.metrics.core.HealthCheck;
 import org.apache.commons.lang.StringUtils;
+import org.skife.config.ConfigSource;
 import org.skife.config.ConfigurationObjectFactory;
 import org.weakref.jmx.guice.ExportBuilder;
 import org.weakref.jmx.guice.MBeanModule;
@@ -87,8 +88,7 @@ public class BaseServerModule extends ServerModule
 
     // Extra Guice bindings
     private final Map<Class, Object> bindings = new HashMap<Class, Object>();
-    // System properties
-    private final Properties props;
+    private final ConfigSource configSource;
     // config-magic classes
     private final ArrayList<Class> configs = new ArrayList<Class>();
     // Healthcheck classes
@@ -114,6 +114,7 @@ public class BaseServerModule extends ServerModule
     private final Map<String, Class<? extends HttpServlet>> servletsRegex;
 
     public BaseServerModule(final Map<Class, Object> bindings,
+                            final ConfigSource configSource,
                             final List<Class> configs,
                             final List<Class<? extends HealthCheck>> healthchecks,
                             final List<Class> beans,
@@ -131,7 +132,7 @@ public class BaseServerModule extends ServerModule
                             final Map<String, Class<? extends HttpServlet>> servletsRegex)
     {
         this.bindings.putAll(bindings);
-        this.props = System.getProperties();
+        this.configSource = configSource;
         this.configs.addAll(configs);
         this.healthchecks.addAll(healthchecks);
         this.beans.addAll(beans);
@@ -204,7 +205,7 @@ public class BaseServerModule extends ServerModule
     protected void configureConfig()
     {
         for (final Class configClass : configs) {
-            bind(configClass).toInstance(new ConfigurationObjectFactory(props).build(configClass));
+            bind(configClass).toInstance(new ConfigurationObjectFactory(configSource).build(configClass));
         }
     }
 

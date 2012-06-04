@@ -29,9 +29,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.skife.config.ConfigSource;
+import org.skife.config.SimplePropertyConfigSource;
+
 public class ServerModuleBuilder
 {
     private final Map<Class, Object> bindings = new HashMap<Class, Object>();
+    private ConfigSource configSource = new SimplePropertyConfigSource(System.getProperties());
     private final List<Class> configs = new ArrayList<Class>();
     private final List<Class<? extends HealthCheck>> healthchecks = new ArrayList<Class<? extends HealthCheck>>();
     private final List<Class> beans = new ArrayList<Class>();
@@ -56,6 +60,12 @@ public class ServerModuleBuilder
     public ServerModuleBuilder addBindings(final Map<Class, Object> bindings)
     {
         this.bindings.putAll(bindings);
+        return this;
+    }
+
+    public ServerModuleBuilder setConfigSource(final ConfigSource configSource)
+    {
+        this.configSource = configSource;
         return this;
     }
 
@@ -184,6 +194,7 @@ public class ServerModuleBuilder
     {
         return new BaseServerModule(
                 bindings,
+                configSource,
                 configs,
                 healthchecks,
                 beans,
