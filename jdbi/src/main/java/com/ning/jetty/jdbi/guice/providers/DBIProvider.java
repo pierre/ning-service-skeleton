@@ -30,6 +30,7 @@ import com.google.inject.Provider;
 import com.jolbox.bonecp.BoneCPConfig;
 import com.jolbox.bonecp.BoneCPDataSource;
 import com.ning.jetty.jdbi.config.DaoConfig;
+import com.ning.jetty.jdbi.config.LogLevel;
 import com.yammer.metrics.core.MetricsRegistry;
 import com.yammer.metrics.jdbi.InstrumentedTimingCollector;
 import com.yammer.metrics.jdbi.strategies.BasicSqlNameStrategy;
@@ -40,7 +41,7 @@ public class DBIProvider implements Provider<DBI> {
     private final MetricsRegistry metricsRegistry;
     private final DaoConfig config;
 
-    private static final class Slf4jLogging extends FormattedLog {
+    private final class Slf4jLogging extends FormattedLog {
         /**
          * Used to ask implementations if logging is enabled.
          *
@@ -58,7 +59,17 @@ public class DBIProvider implements Provider<DBI> {
          */
         @Override
         protected void log(final String msg) {
-            logger.info(msg);
+            if (config.getLogLevel().equals(LogLevel.DEBUG)) {
+                logger.debug(msg);
+            } else if (config.getLogLevel().equals(LogLevel.TRACE)) {
+                logger.trace(msg);
+            } else if (config.getLogLevel().equals(LogLevel.INFO)) {
+                logger.info(msg);
+            } else if (config.getLogLevel().equals(LogLevel.WARN)) {
+                logger.warn(msg);
+            } else if (config.getLogLevel().equals(LogLevel.ERROR)) {
+                logger.error(msg);
+            }
         }
     }
 

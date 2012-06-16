@@ -68,4 +68,9 @@ public interface DaoConfig
     @Config("com.ning.jetty.jdbi.idleConnectionTestPeriod")
     @Default("5m")
     TimeSpan getIdleConnectionTestPeriod();
+
+    @Description("Log level for SQL queries")
+    @Config("com.ning.jetty.jdbi.logLevel")
+    @Default("DEBUG")
+    LogLevel getLogLevel();
 }
