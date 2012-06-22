@@ -20,63 +20,31 @@ import java.util.concurrent.TimeUnit;
 
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.TimingCollector;
-import org.skife.jdbi.v2.logging.FormattedLog;
 import org.skife.jdbi.v2.tweak.SQLLog;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.jolbox.bonecp.BoneCPConfig;
 import com.jolbox.bonecp.BoneCPDataSource;
 import com.ning.jetty.jdbi.config.DaoConfig;
-import com.ning.jetty.jdbi.config.LogLevel;
 import com.yammer.metrics.core.MetricsRegistry;
 import com.yammer.metrics.jdbi.InstrumentedTimingCollector;
 import com.yammer.metrics.jdbi.strategies.BasicSqlNameStrategy;
 
 public class DBIProvider implements Provider<DBI> {
-    private static final Logger logger = LoggerFactory.getLogger(DBIProvider.class);
-
     private final MetricsRegistry metricsRegistry;
     private final DaoConfig config;
-
-    private final class Slf4jLogging extends FormattedLog {
-        /**
-         * Used to ask implementations if logging is enabled.
-         *
-         * @return true if statement logging is enabled
-         */
-        @Override
-        protected boolean isEnabled() {
-            return true;
-        }
-
-        /**
-         * Log the statement passed in
-         *
-         * @param msg the message to log
-         */
-        @Override
-        protected void log(final String msg) {
-            if (config.getLogLevel().equals(LogLevel.DEBUG)) {
-                logger.debug(msg);
-            } else if (config.getLogLevel().equals(LogLevel.TRACE)) {
-                logger.trace(msg);
-            } else if (config.getLogLevel().equals(LogLevel.INFO)) {
-                logger.info(msg);
-            } else if (config.getLogLevel().equals(LogLevel.WARN)) {
-                logger.warn(msg);
-            } else if (config.getLogLevel().equals(LogLevel.ERROR)) {
-                logger.error(msg);
-            }
-        }
-    }
+    private SQLLog sqlLog;
 
     @Inject
     public DBIProvider(final MetricsRegistry metricsRegistry, final DaoConfig config) {
         this.metricsRegistry = metricsRegistry;
         this.config = config;
+    }
+
+    @Inject(optional = true)
+    public void setSqlLog(final SQLLog sqlLog) {
+        this.sqlLog = sqlLog;
     }
 
     @Override
@@ -97,8 +65,9 @@ public class DBIProvider implements Provider<DBI> {
 
         final BoneCPDataSource ds = new BoneCPDataSource(dbConfig);
         final DBI dbi = new DBI(ds);
-        final SQLLog log = new Slf4jLogging();
-        dbi.setSQLLog(log);
+        if (sqlLog != null) {
+            dbi.setSQLLog(sqlLog);
+        }
 
         final BasicSqlNameStrategy basicSqlNameStrategy = new BasicSqlNameStrategy();
         final TimingCollector timingCollector = new InstrumentedTimingCollector(metricsRegistry, basicSqlNameStrategy, TimeUnit.MILLISECONDS, TimeUnit.SECONDS);
