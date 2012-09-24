@@ -16,6 +16,9 @@
 
 package com.ning.jetty.base.modules;
 
+import com.ning.http.client.AsyncHttpClient;
+import com.ning.http.client.Response;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
@@ -30,6 +33,7 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.concurrent.Future;
 
 public class TestBaseServerModule
 {
@@ -38,6 +42,29 @@ public class TestBaseServerModule
     {
         final ServerModuleBuilder builder = new ServerModuleBuilder();
         final ServletModule module = builder.build();
+        final Server server = startServer(module);
+        server.stop();
+    }
+
+    @Test(groups = "slow")
+    public void testJerseyIntegration() throws Exception
+    {
+        final ServerModuleBuilder builder = new ServerModuleBuilder();
+        builder.addJaxRSResource("com.ning.jetty.base.modules");
+        builder.addModule(new HelloModule());
+        final ServletModule module = builder.build();
+        final Server server = startServer(module);
+
+        final AsyncHttpClient client = new AsyncHttpClient();
+        final Future<Response> responseFuture = client.prepareGet("http://127.0.0.1:" + server.getConnectors()[0].getPort() + "/hello/alhuile/").execute();
+        final String body = responseFuture.get().getResponseBody();
+        Assert.assertEquals(body, "Hello alhuile");
+
+        server.stop();
+    }
+
+    private Server startServer(final ServletModule module) throws Exception
+    {
         final Injector injector = Guice.createInjector(module);
 
         final Server server = new Server(getPort());
@@ -69,7 +96,7 @@ public class TestBaseServerModule
             }
         };
         Assert.assertTrue(server.isRunning());
-        t.interrupt();
+        return server;
     }
 
     private int getPort()

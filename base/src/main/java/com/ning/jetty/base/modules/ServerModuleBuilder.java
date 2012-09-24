@@ -22,6 +22,9 @@ import com.google.common.collect.Maps;
 import com.google.inject.Module;
 import com.yammer.metrics.core.HealthCheck;
 
+import org.skife.config.ConfigSource;
+import org.skife.config.SimplePropertyConfigSource;
+
 import javax.servlet.Filter;
 import javax.servlet.http.HttpServlet;
 import java.util.ArrayList;
@@ -29,11 +32,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.skife.config.ConfigSource;
-import org.skife.config.SimplePropertyConfigSource;
-
 public class ServerModuleBuilder
 {
+    private enum JaxRSImplementation
+    {
+        JERSEY
+    }
+
     private final Map<Class, Object> bindings = new HashMap<Class, Object>();
     private ConfigSource configSource = new SimplePropertyConfigSource(System.getProperties());
     private final List<Class> configs = new ArrayList<Class>();
@@ -42,16 +47,17 @@ public class ServerModuleBuilder
     private String areciboProfile = null;
     private boolean trackRequests = false;
     private boolean log4jEnabled = false;
-    // By default, proxy all requests to the Guice/Jersey servlet
-    private String jerseyUriPattern = "/.*";
-    private final List<String> jerseyResources = new ArrayList<String>();
+    // By default, proxy all requests to the Guice/Jax-RS servlet
+    private String jaxRSUriPattern = "/.*";
+    private final List<String> jaxRSResources = new ArrayList<String>();
     private final List<Module> modules = new ArrayList<Module>();
     private final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filters = new HashMap<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>>();
     private final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filtersRegex = new HashMap<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>>();
-    private final Map<String, Class<? extends HttpServlet>> jerseyServlets = new HashMap<String, Class<? extends HttpServlet>>();
-    private final Map<String, Class<? extends HttpServlet>> jerseyServletsRegex = new HashMap<String, Class<? extends HttpServlet>>();
+    private final Map<String, Class<? extends HttpServlet>> jaxRSServlets = new HashMap<String, Class<? extends HttpServlet>>();
+    private final Map<String, Class<? extends HttpServlet>> jaxRSServletsRegex = new HashMap<String, Class<? extends HttpServlet>>();
     private final Map<String, Class<? extends HttpServlet>> servlets = new HashMap<String, Class<? extends HttpServlet>>();
     private final Map<String, Class<? extends HttpServlet>> servletsRegex = new HashMap<String, Class<? extends HttpServlet>>();
+    private JaxRSImplementation jaxRSImplementation = JaxRSImplementation.JERSEY;
 
     public ServerModuleBuilder()
     {
@@ -108,13 +114,13 @@ public class ServerModuleBuilder
     /**
      * Specify the Uri pattern to use for the Guice/Jersey servlet
      *
-     * @param jerseyUriPattern Any Java-style regular expression
+     * @param jaxRSUriPattern Any Java-style regular expression
      * @return the current module builder
-     * @see ServerModuleBuilder#addJerseyResource(String)
+     * @see ServerModuleBuilder#addJaxRSResource
      */
-    public ServerModuleBuilder setJerseyUriPattern(final String jerseyUriPattern)
+    public ServerModuleBuilder setJaxRSUriPattern(final String jaxRSUriPattern)
     {
-        this.jerseyUriPattern = jerseyUriPattern;
+        this.jaxRSUriPattern = jaxRSUriPattern;
         return this;
     }
 
@@ -124,9 +130,9 @@ public class ServerModuleBuilder
      * @param resource package to scan
      * @return the current module builder
      */
-    public ServerModuleBuilder addJerseyResource(final String resource)
+    public ServerModuleBuilder addJaxRSResource(final String resource)
     {
-        this.jerseyResources.add(resource);
+        this.jaxRSResources.add(resource);
         return this;
     }
 
@@ -180,36 +186,46 @@ public class ServerModuleBuilder
 
     public ServerModuleBuilder addJerseyServlet(final String urlPattern, final Class<? extends HttpServlet> filterKey)
     {
-        this.jerseyServlets.put(urlPattern, filterKey);
+        this.jaxRSServlets.put(urlPattern, filterKey);
         return this;
     }
 
     public ServerModuleBuilder addJerseyServletRegex(final String urlPattern, final Class<? extends HttpServlet> filterKey)
     {
-        this.jerseyServletsRegex.put(urlPattern, filterKey);
+        this.jaxRSServletsRegex.put(urlPattern, filterKey);
         return this;
+    }
+
+    public void setJaxRSImplementation(final JaxRSImplementation jaxRSImplementation)
+    {
+        this.jaxRSImplementation = jaxRSImplementation;
     }
 
     public ServerModule build()
     {
-        return new BaseServerModule(
-                bindings,
-                configSource,
-                configs,
-                healthchecks,
-                beans,
-                areciboProfile,
-                trackRequests,
-                log4jEnabled,
-                jerseyUriPattern,
-                jerseyResources,
-                modules,
-                filters,
-                filtersRegex,
-                jerseyServlets,
-                jerseyServletsRegex,
-                servlets,
-                servletsRegex
-        );
+        switch (jaxRSImplementation) {
+            case JERSEY:
+                return new JerseyBaseServerModule(
+                        bindings,
+                        configSource,
+                        configs,
+                        healthchecks,
+                        beans,
+                        areciboProfile,
+                        trackRequests,
+                        log4jEnabled,
+                        jaxRSUriPattern,
+                        jaxRSResources,
+                        modules,
+                        filters,
+                        filtersRegex,
+                        jaxRSServlets,
+                        jaxRSServletsRegex,
+                        servlets,
+                        servletsRegex
+                );
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 }

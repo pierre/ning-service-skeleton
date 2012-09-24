@@ -30,14 +30,9 @@ import com.ning.jetty.utils.arecibo.Log4JMBeanAreciboConnector;
 import com.ning.metrics.eventtracker.CollectorControllerHttpMBeanModule;
 import com.ning.metrics.eventtracker.CollectorControllerSmileModule;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.inject.Module;
-import com.sun.jersey.api.container.filter.LoggingFilter;
-import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 import com.yammer.metrics.core.HealthCheck;
-import org.apache.commons.lang.StringUtils;
+
 import org.skife.config.ConfigSource;
 import org.skife.config.ConfigurationObjectFactory;
 import org.weakref.jmx.guice.ExportBuilder;
@@ -49,43 +44,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
-import static com.sun.jersey.api.core.PackagesResourceConfig.PROPERTY_PACKAGES;
-import static com.sun.jersey.api.core.ResourceConfig.PROPERTY_CONTAINER_REQUEST_FILTERS;
-import static com.sun.jersey.api.core.ResourceConfig.PROPERTY_CONTAINER_RESPONSE_FILTERS;
-
-public class BaseServerModule extends ServerModule
+public abstract class BaseServerModule extends ServerModule
 {
-    /**
-     * These configuration parameters are normally specified as init-param entries in the web.xml. We have to set
-     * them here because GuiceFilter instead has you pass them as arguments to
-     * {@link com.google.inject.servlet.ServletModule.ServletKeyBindingBuilder#with(Class, java.util.Map)}.
-     *
-     * @see com.google.inject.servlet.ServletModule#configureServlets()
-     */
-    private static final Iterable<String> requestFilterClassNames = ImmutableList.of(
-            // The logging filter is still incompatible with the GZIP filter
-            //GZIPContentEncodingFilter.class.getName(),
-            LoggingFilter.class.getName()
-    );
-
-    /**
-     * These items are <i>intentionally</i> in the reverse order of the above filters. Jersey respects the order in which
-     * these items appear, and they should be applied to the response in the reverse order of their application to
-     * the request.
-     */
-    private static final Iterable<String> responseFilterClassNames = ImmutableList.of(
-            LoggingFilter.class.getName()
-            //GZIPContentEncodingFilter.class.getName()
-    );
-
-    private final ImmutableMap.Builder<String, String> JERSEY_PARAMS = new ImmutableMap.Builder<String, String>()
-            .put(PROPERTY_CONTAINER_REQUEST_FILTERS, Joiner.on(';').join(requestFilterClassNames))
-            .put(PROPERTY_CONTAINER_RESPONSE_FILTERS, Joiner.on(';').join(responseFilterClassNames))
-                    // The LoggingFilter will log the body by default, which breaks StreamingOutput
-            .put("com.sun.jersey.config.feature.logging.DisableEntitylogging", "true");
-
     // Extra Guice bindings
     private final Map<Class, Object> bindings = new HashMap<Class, Object>();
     private final ConfigSource configSource;
@@ -101,17 +62,18 @@ public class BaseServerModule extends ServerModule
     private boolean trackRequests = false;
     // Whether log4j is used
     private boolean log4jEnabled = false;
-    // Jersey resources
-    final String jerseyUriPattern;
-    final List<String> jerseyResources = new ArrayList<String>();
     // Extra Guice modules to install
     final List<Module> modules = new ArrayList<Module>();
     private final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filters;
     private final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filtersRegex;
-    private final Map<String, Class<? extends HttpServlet>> jerseyServlets;
-    private final Map<String, Class<? extends HttpServlet>> jerseyServletsRegex;
     private final Map<String, Class<? extends HttpServlet>> servlets;
     private final Map<String, Class<? extends HttpServlet>> servletsRegex;
+
+    // Jax-RS resources
+    final String jaxRSUriPattern;
+    final List<String> jaxRSResources = new ArrayList<String>();
+    final Map<String, Class<? extends HttpServlet>> jaxRSServlets;
+    final Map<String, Class<? extends HttpServlet>> jaxRSServletsRegex;
 
     public BaseServerModule(final Map<Class, Object> bindings,
                             final ConfigSource configSource,
@@ -121,13 +83,13 @@ public class BaseServerModule extends ServerModule
                             final String areciboProfile,
                             final boolean trackRequests,
                             final boolean log4jEnabled,
-                            final String jerseyUriPattern,
-                            final List<String> jerseyResources,
+                            final String jaxRSUriPattern,
+                            final List<String> jaxRSResources,
                             final List<Module> modules,
                             final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filters,
                             final Map<String, ArrayList<Map.Entry<Class<? extends Filter>, Map<String, String>>>> filtersRegex,
-                            final Map<String, Class<? extends HttpServlet>> jerseyServlets,
-                            final Map<String, Class<? extends HttpServlet>> jerseyServletsRegex,
+                            final Map<String, Class<? extends HttpServlet>> jaxRSServlets,
+                            final Map<String, Class<? extends HttpServlet>> jaxRSServletsRegex,
                             final Map<String, Class<? extends HttpServlet>> servlets,
                             final Map<String, Class<? extends HttpServlet>> servletsRegex)
     {
@@ -139,13 +101,13 @@ public class BaseServerModule extends ServerModule
         this.areciboProfile = areciboProfile;
         this.log4jEnabled = log4jEnabled;
         this.trackRequests = trackRequests;
-        this.jerseyUriPattern = jerseyUriPattern;
-        this.jerseyResources.addAll(jerseyResources);
+        this.jaxRSUriPattern = jaxRSUriPattern;
+        this.jaxRSResources.addAll(jaxRSResources);
         this.modules.addAll(modules);
         this.filters = filters;
         this.filtersRegex = filtersRegex;
-        this.jerseyServlets = jerseyServlets;
-        this.jerseyServletsRegex = jerseyServletsRegex;
+        this.jaxRSServlets = jaxRSServlets;
+        this.jaxRSServletsRegex = jaxRSServletsRegex;
         this.servlets = servlets;
         this.servletsRegex = servletsRegex;
 
@@ -171,7 +133,7 @@ public class BaseServerModule extends ServerModule
         configureFiltersRegex();
         configureRegularServlets();
         configureRegularServletsRegex();
-        configureJersey();
+        configureResources();
     }
 
     private void installExtraBindings()
@@ -286,20 +248,5 @@ public class BaseServerModule extends ServerModule
         }
     }
 
-    protected void configureJersey()
-    {
-        for (final String urlPattern : jerseyServlets.keySet()) {
-            serve(urlPattern).with(jerseyServlets.get(urlPattern), JERSEY_PARAMS.build());
-        }
-
-        for (final String urlPattern : jerseyServletsRegex.keySet()) {
-            serveRegex(urlPattern).with(jerseyServletsRegex.get(urlPattern), JERSEY_PARAMS.build());
-        }
-
-        // Catch-all resources
-        if (jerseyResources.size() != 0) {
-            JERSEY_PARAMS.put(PROPERTY_PACKAGES, StringUtils.join(jerseyResources, ";"));
-            serveRegex(jerseyUriPattern).with(GuiceContainer.class, JERSEY_PARAMS.build());
-        }
-    }
+    protected abstract void configureResources();
 }
