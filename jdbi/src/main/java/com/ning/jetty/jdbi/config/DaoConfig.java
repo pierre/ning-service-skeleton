@@ -59,7 +59,7 @@ public interface DaoConfig
     TimeSpan getIdleMaxAge();
 
     @Description("Any connections older than this setting will be closed off whether it is idle or not. Connections " +
-            "currently in use will not be affected until they are returned to the pool")
+                 "currently in use will not be affected until they are returned to the pool")
     @Config("com.ning.jetty.jdbi.maxConnectionAge")
     @Default("0m")
     TimeSpan getMaxConnectionAge();
@@ -73,4 +73,9 @@ public interface DaoConfig
     @Config("com.ning.jetty.jdbi.logLevel")
     @Default("DEBUG")
     LogLevel getLogLevel();
+
+    @Description("The TransactionHandler to use for all Handle instances")
+    @Config("com.ning.jetty.jdbi.transactionHandler")
+    @Default("com.ning.jetty.jdbi.RestartTransactionRunner")
+    String getTransactionHandlerClass();
 }

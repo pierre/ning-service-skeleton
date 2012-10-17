@@ -57,6 +57,7 @@
         <dependency>
             <groupId>org.jdbi</groupId>
             <artifactId>jdbi</artifactId>
+            <version>2.39.1</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

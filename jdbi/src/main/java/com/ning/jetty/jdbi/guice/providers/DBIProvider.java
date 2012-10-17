@@ -21,17 +21,23 @@ import java.util.concurrent.TimeUnit;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.TimingCollector;
 import org.skife.jdbi.v2.tweak.SQLLog;
+import org.skife.jdbi.v2.tweak.TransactionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.ning.jetty.jdbi.config.DaoConfig;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.jolbox.bonecp.BoneCPConfig;
 import com.jolbox.bonecp.BoneCPDataSource;
-import com.ning.jetty.jdbi.config.DaoConfig;
 import com.yammer.metrics.core.MetricsRegistry;
 import com.yammer.metrics.jdbi.InstrumentedTimingCollector;
 import com.yammer.metrics.jdbi.strategies.BasicSqlNameStrategy;
 
 public class DBIProvider implements Provider<DBI> {
+    private static final Logger logger = LoggerFactory.getLogger(DBIProvider.class);
+
     private final MetricsRegistry metricsRegistry;
     private final DaoConfig config;
     private SQLLog sqlLog;
@@ -67,6 +73,15 @@ public class DBIProvider implements Provider<DBI> {
         final DBI dbi = new DBI(ds);
         if (sqlLog != null) {
             dbi.setSQLLog(sqlLog);
+        }
+
+        if (config.getTransactionHandlerClass() != null) {
+            logger.info("Using " + config.getTransactionHandlerClass() + " as a transaction handler class");
+            try {
+                dbi.setTransactionHandler((TransactionHandler) Class.forName(config.getTransactionHandlerClass()).newInstance());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
 
         final BasicSqlNameStrategy basicSqlNameStrategy = new BasicSqlNameStrategy();
